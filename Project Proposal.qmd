@@ -1,26 +1,31 @@
 ---
 title: "Project Proposal"
+author: "IS415 Group 6"
+
+date-modified: "`r Sys.Date()`"
 format: html
+execute: 
+  echo: true
+  eval: true
+  warning: false
 editor: visual
 ---
 
-## Quarto
+# Background
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+India has a high rate of crime. Crime rates in India can vary depending on the region, with certain areas experiencing higher rates of crime than others. For example, tourist destinations such as Delhi, Goa, and Mumbai are known to have higher rates of petty crime, such as pickpocketing and theft, especially in crowded areas like markets and train stations. However, violent crime against tourists is rare in India.
 
-## Running Code
+# Project Motivation 
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+India is known for its rich cultural and historical heritage, various kinds of ecology, places of natural beauty, heart touching ancient and much more are spread across the country. There are definitely enough attractive destinations for overseas tourists. However, with the high crime rate in India, it will discouraged tourist from visiting India and appreciate its unique culture.
 
-```{r}
-1 + 1
-```
+Therefore, we hope that creating this application can bring benefits to multiple stakeholders: by helping policymakers understand the nature and extent of crime rate in the different districts of India so that they could work on investigation and enforce stricter law in the identified high crime districts. Additionally, it aims to also help to raise public awareness about crime and safety issues, tourists can make more informed choices to where they want to go after knowing the crime rates in different districts in India.
 
-You can add options to executable code like this
+# Project Objectives
 
-```{r}
-#| echo: false
-2 * 2
-```
+Our research would focus on identifying the crime rates in the different districts in India. On top of that, we will also be analysing the types of crimes and offenders in each district.
 
-The `echo: false` option disables the printing of code (only output is displayed).
+# Datasets 
+
+1.  Districtwise IPC Crimes 2021:
+2.  Districtwise SLL Crimes 2021:
