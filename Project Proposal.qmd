@@ -13,7 +13,7 @@ editor: visual
 
 # Background
 
-India has a high rate of crime. Crime rates in India can vary depending on the region, with certain areas experiencing higher rates of crime than others. For example, tourist destinations such as Delhi, Goa, and Mumbai are known to have higher rates of petty crime, such as pickpocketing and theft, especially in crowded areas like markets and train stations. However, violent crime against tourists is rare in India.
+India has a high rate of crime. Crime rates in India can vary depending on the region, with certain areas experiencing higher rates of crime than others. For example, tourist destinations such as Delhi, Goa, and Mumbai are known to have higher rates of petty crime, such as pick pocketing and theft, especially in crowded areas like markets and train stations. However, violent crime against tourists is rare in India.
 
 # Project Motivation
 
@@ -48,25 +48,21 @@ These spatial statistics are well suited for:
 
 The following is our methodoly for analysing the crime rates in India at district level --
 
-1.  Data Collection and Preprocessing:
-    We will collect and preprocess crime data for India, including the location data in the form of latitude and longitude coordinates, along with other relevant attributes such as crime type, time and date of occurrence, etc.
+1.  Data Collection and Preprocessing: We will collect and preprocess crime data for India, including the location data in the form of latitude and longitude coordinates, along with other relevant attributes such as crime type, time and date of occurrence, etc.
 
-2.  Spatial Data Analysis:
-    We will conduct exploratory spatial data analysis (ESDA) to examine the spatial distribution of crime in India using choropleth maps, histograms, and spatial autocorrelation plots.
+2.  Spatial Data Analysis: We will conduct exploratory spatial data analysis (ESDA) to examine the spatial distribution of crime in India using choropleth maps, histograms, and spatial autocorrelation plots.
 
-3.  Global Spatial Autocorrelation:
-    We will calculate Global Spatial Autocorrelation measures such as Moran's I or Geary's C to identify whether the spatial pattern of crime incidents is clustered, dispersed or random.
+3.  Global Spatial Autocorrelation: We will calculate Global Spatial Autocorrelation measures such as Moran's I or Geary's C to identify whether the spatial pattern of crime incidents is clustered, dispersed or random.
 
-4.  Local Spatial Autocorrelation:
-    We will calculate Local Spatial Autocorrelation measures such as Local Moran's I, Geary's C and Getis-Ord Gi\* to identify hotspots (high-high) and coldspots (low-low) of crime incidents across India.
+4.  Local Spatial Autocorrelation: We will calculate Local Spatial Autocorrelation measures such as Local Moran's I, Geary's C and Getis-Ord Gi\* to identify hotspots (high-high) and coldspots (low-low) of crime incidents across India.
 
-5.  Spatial Visualization:
-    We will then visualize the results of Global and Local Spatial Autocorrelation measures using maps, heatmaps, or other visualization techniques. This can help to identify spatial patterns and clusters of crime incidents and to highlight areas that may require further investigation or intervention.
+5.  Spatial Visualization: We will then visualize the results of Global and Local Spatial Autocorrelation measures using maps, heatmaps, or other visualization techniques. This can help to identify spatial patterns and clusters of crime incidents and to highlight areas that may require further investigation or intervention.
 
-6.  Interpretation and Conclusion:
-    Lastly, we interpret the results of the analysis and draw conclusions about the spatial patterns and drivers of crime incidents in India.
+6.  Interpretation and Conclusion: Lastly, we interpret the results of the analysis and draw conclusions about the spatial patterns and drivers of crime incidents in India.
 
 # Project Timeline
+
+![](images/image-1628687827.png)
 
 # Application System Architecture
 
