@@ -27,8 +27,16 @@ Our research would focus on conducting a geospatial analysis of crime patterns i
 
 # Datasets
 
-1.  Districtwise IPC Crimes 2021:
-2.  Districtwise SLL Crimes 2021:
+Geospatial Data
+
+1.  [GIS Data](https://www.kaggle.com/datasets/nehaprabhavalkar/india-gis-data): This contains the shp file of the boundaries of India.
+
+Aspatial Data
+
+1.  [Districtwise IPC Crimes 2021](https://ncrb.gov.in/sites/default/files/CII-2021/1%20Districtwise%20IPC%20Crimes_2021.xlsx): The dataset consists of crimes punishable under the Indian Penal Code (IPC) on a district level including the 28 states and 8 union territories. There are 142 such crimes that can be further combined.
+2.  [Districtwise SLL Crimes 2021](https://ncrb.gov.in/sites/default/files/CII-2021/2%20Districtwise%20SLL%20Crimes_2021.xlsx): Similarly, this dataset consists of crimes punishable under Special and Local Laws (SLL) on a district level including the 28 states and union territories. There are 92 such crimes that can be further combined.
+
+Data Preparation
 
 # Literature Review
 
