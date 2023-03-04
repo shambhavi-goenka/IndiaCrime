@@ -67,3 +67,7 @@ The following is our methodoly for analysing the crime rates in India at distric
 # Application System Architecture
 
 ![](images/image-1461417728.png)
+
+# Storyboard
+
+![](images/image-1418424626.png)
