@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="IS415 Group 6">
 
-<title>IS415-GAA - Project_Proposal</title>
+<title>IS415-GAA - Project Proposal</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -119,6 +120,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#project-motivation" id="toc-project-motivation" class="nav-link" data-scroll-target="#project-motivation">Project Motivation</a></li>
   <li><a href="#project-objectives" id="toc-project-objectives" class="nav-link" data-scroll-target="#project-objectives">Project Objectives</a></li>
   <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
   <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
   <li><a href="#methodology" id="toc-methodology" class="nav-link" data-scroll-target="#methodology">Methodology</a></li>
   <li><a href="#project-timeline" id="toc-project-timeline" class="nav-link" data-scroll-target="#project-timeline">Project Timeline</a></li>
@@ -132,13 +134,19 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project_Proposal</h1>
+<h1 class="title">Project Proposal</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>IS415 Group 6 </p>
+          </div>
+  </div>
     
   
     
@@ -171,10 +179,80 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="https://ncrb.gov.in/sites/default/files/CII-2021/1%20Districtwise%20IPC%20Crimes_2021.xlsx">Districtwise IPC Crimes 2021</a>: The dataset consists of crimes punishable under the Indian Penal Code (IPC) on a district level including the 28 states and 8 union territories. There are 142 such crimes that can be further combined.</li>
 <li><a href="https://ncrb.gov.in/sites/default/files/CII-2021/2%20Districtwise%20SLL%20Crimes_2021.xlsx">Districtwise SLL Crimes 2021</a>: Similarly, this dataset consists of crimes punishable under Special and Local Laws (SLL) on a district level including the 28 states and union territories. There are 92 such crimes that can be further combined.</li>
 </ol>
-<p>Data Preparation</p>
+</section>
+<section id="data-preparation" class="level1">
+<h1>Data Preparation</h1>
+<p><img src="images/image-1091506209.png" class="img-fluid"></p>
 </section>
 <section id="literature-review" class="level1">
 <h1>Literature Review</h1>
+<ol type="1">
+<li><p><strong>Crime Mapping and Hot Spot Analysis using Geospacial Techniques: A Case of Ajmer City</strong></p>
+<p>By Monika Kannan, Kasina V. Rao, Mayur Raj and P. Alok Verma</p></li>
+</ol>
+<p>Objective</p>
+<p>Identify crime prone zones through crime mapping with probability of occurrence based on the past incidence of various crime locations</p>
+<p>Methodology</p>
+<ul>
+<li><p>Euclidean distances of Crimes from Police station and Highways</p></li>
+<li><p>Cluster Analysis</p></li>
+<li><p>Hotspot Analysis</p></li>
+<li><p>Interpolation (co-Kriging) : To predict the susceptible crime regions based on the correlation with other non-spatial attributes</p></li>
+</ul>
+<p>Learning Points</p>
+<ul>
+<li><p>The use of co-Kriging total crime with socioeconomic factors as an estimation method</p></li>
+<li><p>The use of weighted overlay analysis of selected variables to predict crime prone areas</p></li>
+</ul>
+<p>Areas of Improvement</p>
+<ul>
+<li><p>Local Gi* statistics could have been used to better filter the data based on crime levels</p></li>
+<li><p>Euclidean distance mapping was unnecessary. Alternates like scatter plots with regression lines could have been used to visualise the distance better.</p></li>
+<li><p>The correlation coefficients for co-Krining were really high (0.9+) and could have caused high collinearity.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><p><strong>Analysis of Criminal Spatial Events in GIS for predicting hotspots</strong></p>
+<p>By Abbas F. Mohammed and Wadhah R. Baiee</p></li>
+</ol>
+<p>Objective</p>
+<p>To recognize the hotspots for crime data like Shooting, Homicide and Assault by threat in Baltimore, Maryland</p>
+<p>Methodology</p>
+<ul>
+<li><p>Getis-Ord Gi* statistics</p></li>
+<li><p>Hot Spot Analysis</p></li>
+</ul>
+<p>Learning Points</p>
+<ul>
+<li>The use of a small dataset and region was beneficial to get a granular understanding of the crimes rates over time</li>
+</ul>
+<p>Areas of Improvement</p>
+<ol type="1">
+<li><p>There could have been a final aggregation of the crimes as a final visualisation.</p></li>
+<li><p>Additional data on the strength of each police district could have improved the predictive value of crime rates</p></li>
+</ol>
+<p>The Mann-Kendall Test could have been incorporated for each police district to better gauge its crime rate over the given time period</p>
+<ol start="3" type="1">
+<li><p><strong>GIS Technologies in Crime Analysis and Crime Mapping</strong></p>
+<p>By Vijaya Kumar and C. Chandreasekar</p></li>
+</ol>
+<p>Objective</p>
+<p>Identify relationship between financial characteristics and crime rate in Chennai and use it to explore other incident sites.</p>
+<p>Methodology</p>
+<ul>
+<li><p>GIS Event Analysis</p></li>
+<li><p>Temporal and Spatial Distribution of Incidents</p></li>
+<li><p>Density Analysis by Kernel Estimation</p></li>
+<li><p>Hot Spot Analysis</p></li>
+</ul>
+<p>Learning Points</p>
+<ul>
+<li><p>The linking of geographic factors (such as land use) to type of crime was an interesting way to generate crime predictions.</p></li>
+<li><p>Hotspot Analysis can be done by Spatial and Temporal Analysis of Crime (STAC) program</p></li>
+</ul>
+<p>Areas of Improvement</p>
+<ul>
+<li>The hotspot analysis could have been segregated by incident type to generate better insights from the data.</li>
+</ul>
 </section>
 <section id="methodology" class="level1">
 <h1>Methodology</h1>

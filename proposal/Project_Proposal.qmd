@@ -1,7 +1,8 @@
 ---
-title: "Project_Proposal"
+title: "Project Proposal"
+author: "IS415 Group 6"
 format: html
-editor: visual
+editor: visual 
 ---
 
 # Background
@@ -29,9 +30,97 @@ Aspatial Data
 1.  [Districtwise IPC Crimes 2021](https://ncrb.gov.in/sites/default/files/CII-2021/1%20Districtwise%20IPC%20Crimes_2021.xlsx): The dataset consists of crimes punishable under the Indian Penal Code (IPC) on a district level including the 28 states and 8 union territories. There are 142 such crimes that can be further combined.
 2.  [Districtwise SLL Crimes 2021](https://ncrb.gov.in/sites/default/files/CII-2021/2%20Districtwise%20SLL%20Crimes_2021.xlsx): Similarly, this dataset consists of crimes punishable under Special and Local Laws (SLL) on a district level including the 28 states and union territories. There are 92 such crimes that can be further combined.
 
-Data Preparation
+# Data Preparation
+
+![](images/image-1091506209.png)
 
 # Literature Review
+
+1.  **Crime Mapping and Hot Spot Analysis using Geospacial Techniques: A Case of Ajmer City**
+
+    By Monika Kannan, Kasina V. Rao, Mayur Raj and P. Alok Verma
+
+Objective
+
+Identify crime prone zones through crime mapping with probability of occurrence based on the past incidence of various crime locations
+
+Methodology
+
+-   Euclidean distances of Crimes from Police station and Highways
+
+-   Cluster Analysis
+
+-   Hotspot Analysis
+
+-   Interpolation (co-Kriging) : To predict the susceptible crime regions based on the correlation with other non-spatial attributes
+
+Learning Points
+
+-   The use of co-Kriging total crime with socioeconomic factors as an estimation method
+
+-   The use of weighted overlay analysis of selected variables to predict crime prone areas
+
+Areas of Improvement
+
+-   Local Gi\* statistics could have been used to better filter the data based on crime levels
+
+-   Euclidean distance mapping was unnecessary. Alternates like scatter plots with regression lines could have been used to visualise the distance better.
+
+-   The correlation coefficients for co-Krining were really high (0.9+) and could have caused high collinearity.
+
+2.  **Analysis of Criminal Spatial Events in GIS for predicting hotspots**
+
+    By Abbas F. Mohammed and Wadhah R. Baiee
+
+Objective
+
+To recognize the hotspots for crime data like Shooting, Homicide and Assault by threat in Baltimore, Maryland
+
+Methodology
+
+-   Getis-Ord Gi\* statistics
+
+-   Hot Spot Analysis
+
+Learning Points
+
+-   The use of a small dataset and region was beneficial to get a granular understanding of the crimes rates over time
+
+Areas of Improvement
+
+1.  There could have been a final aggregation of the crimes as a final visualisation.
+
+2.  Additional data on the strength of each police district could have improved the predictive value of crime rates
+
+The Mann-Kendall Test could have been incorporated for each police district to better gauge its crime rate over the given time period
+
+3.  **GIS Technologies in Crime Analysis and Crime Mapping**
+
+    By Vijaya Kumar and C. Chandreasekar
+
+Objective
+
+Identify relationship between financial characteristics and crime rate in Chennai and use it to explore other incident sites.
+
+Methodology
+
+-   GIS Event Analysis
+
+-   Temporal and Spatial Distribution of Incidents
+
+-   Density Analysis by Kernel Estimation
+
+-   Hot Spot Analysis
+
+Learning Points
+
+-   The linking of geographic factors (such as land use) to type of crime was an interesting way to generate crime predictions.
+
+-   Hotspot Analysis can be done by Spatial and Temporal Analysis of Crime (STAC) program
+
+Areas of Improvement
+
+-   The hotspot analysis could have been segregated by incident type to generate better insights from the data.
 
 # Methodology
 
