@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "IS415-GAA"
+  navbar:
+    left:
+      - text: "Project Links"
+        menu:
+          - text: "Project Proposal"
+            href: "Project Proposal.html"
+    right: 
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+
+      
+
+format:
+  html:
+    theme: Lux
+    css: styles.css
+    toc: true
+
+editor: visual
+
