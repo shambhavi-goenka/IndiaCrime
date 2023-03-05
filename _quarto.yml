@@ -8,7 +8,7 @@ website:
       - text: "Project Links"
         menu:
           - text: "Project Proposal"
-            href: "Project Proposal.html"
+            href: "proposal/Project_Proposal.html"
     right: 
       - href: index.qmd
         text: Home

@@ -3,3 +3,7 @@ title: "IS415-GAA"
 ---
 
 Welcome to <b> IS415 Geospatial Analytics and Applications. </b>
+
+We are team 6 and our team members are **Kelly**, **Mayuri** and **Shambhavi**! This is our webpage where we will be analysing the crime rate in India.
+
+To view our Project Proposal, please head to 'Project Links' in the navback and select 'Project Proposal'.
