@@ -25,35 +25,34 @@ Convert to numeric
 df <- IPC %>%
   select(-c("...1", "...2")) %>%
   mutate_if(is.character,as.numeric)
+```
 
-df <- cbind(IPC$"...1", IPC$"...2", df) %>% 
+Group data to reduce cardinality
+
+```{r}
+temp_df <- df |> rowwise() |>
+  summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`),
+            attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`),
+            death_negligence = sum(`Causing Death by Negligence`,`...6`,`...7`,`...8`,`...9`,`...10`,`...11`,`...12`),
+            hurt = sum(`Hurt`,`Wrongful Restraint/Confinement (Sec.341 to 348 IPC)`),
+            women_assault = sum(`Causing Death by Negligence`,`Assault on Women with Intent to Outrage her Modesty`),
+            kidnapping_abduction = sum(`Kidnapping and Abduction`),
+            human_exploitation = sum(`Human Trafficking (U/S 370)`, `Exploitation of Trafficked Person 370A IPC)`, `Selling of Minors for Prostitution (Sec.372 IPC)`, `Buying of Minors for Prostitution (Sec.373 IPC)`, `Rape (Sec.376 IPC)`, `Attempt to Commit Rape (Sec.376/511 IPC)`, `Unnatural Offences (Sec.377 IPC)`),
+            state_offence = sum(`...64`),
+            public_tranquility = sum(`Offences against Public Tranquillity (Total)`),
+            movable_property = sum(`Offences against Property (Total)`),
+            document_fraud = sum(`Offences Relating to Documents & Property Marks (Total)`),
+            miscellaneous = sum(`Miscellaneous IPC Crimes(Total)`, `...143`))
+```
+
+Join into df
+
+```{r}
+df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
        rename("State" = "IPC$...1",
               "District" = "IPC$...2")
 ```
 
-Extract state wise data
-
 ```{r}
-mydata_summed <- df %>%
-  filter(State == "Andhra Pradesh") %>%
-  rowwise()
-```
 
-Create groupings
-
-```{r}
-murders <- mydata_summed %>%
-  summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`))
-
-attempted_muders <- mydata_summed %>%
-  summarise(attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`))
-
-death_negligence <- mydata_summed %>%
-  summarise(death_negligence = sum(`Causing Death by Negligence`,`...6`,`...7`,`...8`,`...9`,`...10`,`...11`,`...12`))
-```
-
-Put in new df
-
-```{r}
-new_df <- cbind(mydata_summed$State, mydata_summed$District, murders, attempted_muders, death_negligence)
 ```
