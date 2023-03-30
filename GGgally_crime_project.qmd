@@ -1,0 +1,22 @@
+---
+title: "GGgallyy_Indiacrime_project"
+---
+
+```{r}
+pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr)
+```
+
+```{r}
+IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
+glimpse(IPC)
+```
+
+```{r}
+mydata_summed <- IPC %>%
+  filter(...1 == "Andhra Pradesh") %>%
+  rowwise()
+
+mydata_summed1 <- mydata_summed %>%
+  summarise(total = sum(as.numeric(...6) + as.numeric(...7)))
+
+```
