@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.313">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -174,7 +174,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ipc-data" id="toc-ipc-data" class="nav-link active" data-scroll-target="#ipc-data">IPC Data</a></li>
+  <li><a href="#sll-data" id="toc-sll-data" class="nav-link" data-scroll-target="#sll-data">SLL data</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -198,75 +205,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2:
-  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2/PACKAGES'</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'tmap' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\Mayuri Salunke\AppData\Local\Temp\RtmpwvbgIj\downloaded_packages</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-tmap installed</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tmap' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format
-Error in readRDS(file) : unknown input format</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: unable to access index for repository http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2:
-  cannot open URL 'http://www.stats.ox.ac.uk/pub/RWin/bin/windows/contrib/4.2/PACKAGES'</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'plotly' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\Mayuri Salunke\AppData\Local\Temp\RtmpwvbgIj\downloaded_packages</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-plotly installed</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'plotly' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in get(method, envir = home): internal error -3 in R_decompress1
-
-Warning in get(method, envir = home): internal error -3 in R_decompress1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in fun(libname, pkgname): internal error -3 in R_decompress1</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, : Failed to install/load:
-tmap, plotly</code></pre>
-</div>
-</div>
+<section id="ipc-data" class="level2">
+<h2 class="anchored" data-anchor-id="ipc-data">IPC Data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>IPC <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/aspatial/1 Districtwise IPC Crimes_2021.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>IPC <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/aspatial/1 Districtwise IPC Crimes_2021.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
 • `` -&gt; `...1`
@@ -355,261 +298,163 @@ tmap, plotly</code></pre>
 • `` -&gt; `...143`
 • `` -&gt; `...144`</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>IPC_Original <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/aspatial/1 Districtwise IPC Crimes_2021.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-• `` -&gt; `...1`
-• `` -&gt; `...2`
-• `` -&gt; `...6`
-• `` -&gt; `...7`
-• `` -&gt; `...8`
-• `` -&gt; `...9`
-• `` -&gt; `...10`
-• `` -&gt; `...11`
-• `` -&gt; `...12`
-• `` -&gt; `...20`
-• `` -&gt; `...21`
-• `` -&gt; `...22`
-• `` -&gt; `...23`
-• `` -&gt; `...24`
-• `` -&gt; `...25`
-• `` -&gt; `...26`
-• `` -&gt; `...27`
-• `` -&gt; `...28`
-• `` -&gt; `...29`
-• `` -&gt; `...30`
-• `` -&gt; `...31`
-• `` -&gt; `...32`
-• `` -&gt; `...33`
-• `` -&gt; `...36`
-• `` -&gt; `...37`
-• `` -&gt; `...38`
-• `` -&gt; `...39`
-• `` -&gt; `...40`
-• `` -&gt; `...41`
-• `` -&gt; `...42`
-• `` -&gt; `...43`
-• `` -&gt; `...44`
-• `` -&gt; `...46`
-• `` -&gt; `...47`
-• `` -&gt; `...48`
-• `` -&gt; `...49`
-• `` -&gt; `...50`
-• `` -&gt; `...51`
-• `` -&gt; `...52`
-• `` -&gt; `...53`
-• `` -&gt; `...54`
-• `` -&gt; `...55`
-• `` -&gt; `...64`
-• `` -&gt; `...65`
-• `` -&gt; `...66`
-• `` -&gt; `...67`
-• `` -&gt; `...70`
-• `` -&gt; `...71`
-• `` -&gt; `...72`
-• `` -&gt; `...73`
-• `` -&gt; `...74`
-• `` -&gt; `...75`
-• `` -&gt; `...76`
-• `` -&gt; `...77`
-• `` -&gt; `...78`
-• `` -&gt; `...79`
-• `` -&gt; `...80`
-• `` -&gt; `...81`
-• `` -&gt; `...82`
-• `` -&gt; `...83`
-• `` -&gt; `...84`
-• `` -&gt; `...85`
-• `` -&gt; `...87`
-• `` -&gt; `...88`
-• `` -&gt; `...92`
-• `` -&gt; `...93`
-• `` -&gt; `...95`
-• `` -&gt; `...96`
-• `` -&gt; `...101`
-• `` -&gt; `...102`
-• `` -&gt; `...109`
-• `` -&gt; `...110`
-• `` -&gt; `...111`
-• `` -&gt; `...112`
-• `` -&gt; `...114`
-• `` -&gt; `...115`
-• `` -&gt; `...116`
-• `` -&gt; `...117`
-• `` -&gt; `...118`
-• `` -&gt; `...119`
-• `` -&gt; `...120`
-• `` -&gt; `...127`
-• `` -&gt; `...128`
-• `` -&gt; `...143`
-• `` -&gt; `...144`</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(IPC_Original)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 912
-Columns: 144
-$ ...1                                                                                    &lt;chr&gt; …
-$ ...2                                                                                    &lt;chr&gt; …
-$ `Murder (Sec.302 IPC)`                                                                  &lt;dbl&gt; …
-$ `Culpable Homicide not amounting to Murder (Sec.304 IPC)`                               &lt;dbl&gt; …
-$ `Causing Death by Negligence`                                                           &lt;chr&gt; …
-$ ...6                                                                                    &lt;chr&gt; …
-$ ...7                                                                                    &lt;chr&gt; …
-$ ...8                                                                                    &lt;chr&gt; …
-$ ...9                                                                                    &lt;chr&gt; …
-$ ...10                                                                                   &lt;chr&gt; …
-$ ...11                                                                                   &lt;chr&gt; …
-$ ...12                                                                                   &lt;chr&gt; …
-$ `Dowry Deaths (Sec.304-B IPC)`                                                          &lt;dbl&gt; …
-$ `Abetment of Suicide (Sec.305/306 IPC)`                                                 &lt;dbl&gt; …
-$ `Attempt to Commit Murder (Sec.307 IPC)`                                                &lt;dbl&gt; …
-$ `Attempt to commit Culpable Homicide (Sec.308 IPC)`                                     &lt;dbl&gt; …
-$ `Attempt to Commit Suicide (Sec.309 IPC)`                                               &lt;dbl&gt; …
-$ `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`         &lt;dbl&gt; …
-$ Hurt                                                                                    &lt;chr&gt; …
-$ ...20                                                                                   &lt;chr&gt; …
-$ ...21                                                                                   &lt;chr&gt; …
-$ ...22                                                                                   &lt;chr&gt; …
-$ ...23                                                                                   &lt;chr&gt; …
-$ ...24                                                                                   &lt;chr&gt; …
-$ ...25                                                                                   &lt;chr&gt; …
-$ ...26                                                                                   &lt;chr&gt; …
-$ ...27                                                                                   &lt;chr&gt; …
-$ ...28                                                                                   &lt;chr&gt; …
-$ ...29                                                                                   &lt;chr&gt; …
-$ ...30                                                                                   &lt;chr&gt; …
-$ ...31                                                                                   &lt;chr&gt; …
-$ ...32                                                                                   &lt;chr&gt; …
-$ ...33                                                                                   &lt;chr&gt; …
-$ `Wrongful Restraint/Confinement (Sec.341 to 348 IPC)`                                   &lt;dbl&gt; …
-$ `Assault on Women with Intent to Outrage her Modesty`                                   &lt;chr&gt; …
-$ ...36                                                                                   &lt;chr&gt; …
-$ ...37                                                                                   &lt;chr&gt; …
-$ ...38                                                                                   &lt;chr&gt; …
-$ ...39                                                                                   &lt;chr&gt; …
-$ ...40                                                                                   &lt;chr&gt; …
-$ ...41                                                                                   &lt;chr&gt; …
-$ ...42                                                                                   &lt;chr&gt; …
-$ ...43                                                                                   &lt;chr&gt; …
-$ ...44                                                                                   &lt;chr&gt; …
-$ `Kidnapping and Abduction`                                                              &lt;chr&gt; …
-$ ...46                                                                                   &lt;chr&gt; …
-$ ...47                                                                                   &lt;chr&gt; …
-$ ...48                                                                                   &lt;chr&gt; …
-$ ...49                                                                                   &lt;chr&gt; …
-$ ...50                                                                                   &lt;chr&gt; …
-$ ...51                                                                                   &lt;chr&gt; …
-$ ...52                                                                                   &lt;chr&gt; …
-$ ...53                                                                                   &lt;chr&gt; …
-$ ...54                                                                                   &lt;chr&gt; …
-$ ...55                                                                                   &lt;chr&gt; …
-$ `Human Trafficking (U/S 370)`                                                           &lt;dbl&gt; …
-$ `Exploitation of Trafficked Person 370A IPC)`                                           &lt;dbl&gt; …
-$ `Selling of Minors for Prostitution (Sec.372 IPC)`                                      &lt;dbl&gt; …
-$ `Buying of Minors for Prostitution (Sec.373 IPC)`                                       &lt;dbl&gt; …
-$ `Rape (Sec.376 IPC)`                                                                    &lt;dbl&gt; …
-$ `Attempt to Commit Rape (Sec.376/511 IPC)`                                              &lt;dbl&gt; …
-$ `Unnatural Offences (Sec.377 IPC)`                                                      &lt;dbl&gt; …
-$ `Offences Affecting the Human Body (Total)`                                             &lt;dbl&gt; …
-$ ...64                                                                                   &lt;chr&gt; …
-$ ...65                                                                                   &lt;chr&gt; …
-$ ...66                                                                                   &lt;chr&gt; …
-$ ...67                                                                                   &lt;chr&gt; …
-$ `Unlawful Assembly (Sec.143, 144 &amp; 145)`                                                &lt;dbl&gt; …
-$ `Rioting (Sec.1470151 IPC)`                                                             &lt;chr&gt; …
-$ ...70                                                                                   &lt;chr&gt; …
-$ ...71                                                                                   &lt;chr&gt; …
-$ ...72                                                                                   &lt;chr&gt; …
-$ ...73                                                                                   &lt;chr&gt; …
-$ ...74                                                                                   &lt;chr&gt; …
-$ ...75                                                                                   &lt;chr&gt; …
-$ ...76                                                                                   &lt;chr&gt; …
-$ ...77                                                                                   &lt;chr&gt; …
-$ ...78                                                                                   &lt;chr&gt; …
-$ ...79                                                                                   &lt;chr&gt; …
-$ ...80                                                                                   &lt;chr&gt; …
-$ ...81                                                                                   &lt;chr&gt; …
-$ ...82                                                                                   &lt;chr&gt; …
-$ ...83                                                                                   &lt;chr&gt; …
-$ ...84                                                                                   &lt;chr&gt; …
-$ ...85                                                                                   &lt;chr&gt; …
-$ `Offences promoting enmity between different groups`                                    &lt;chr&gt; …
-$ ...87                                                                                   &lt;chr&gt; …
-$ ...88                                                                                   &lt;chr&gt; …
-$ `Affray (Sec.159 &amp; 160 IPC)`                                                            &lt;dbl&gt; …
-$ `Offences against Public Tranquillity (Total)`                                          &lt;dbl&gt; …
-$ `Theft (Section 379 IPC)`                                                               &lt;chr&gt; …
-$ ...92                                                                                   &lt;chr&gt; …
-$ ...93                                                                                   &lt;chr&gt; …
-$ `Burglary (Sec.454 to 460 r/w Sec.380 IPC)`                                             &lt;chr&gt; …
-$ ...95                                                                                   &lt;chr&gt; …
-$ ...96                                                                                   &lt;chr&gt; …
-$ `Extortion &amp; Blackmailing (Sec.384 to 389 IPC)`                                         &lt;dbl&gt; …
-$ `Robbery  (Sec.392/394/397 IPC)`                                                        &lt;dbl&gt; …
-$ `Attempt to Commit Dacoity/Robbery (Sec.393 &amp; 398 IPC)`                                 &lt;dbl&gt; …
-$ Dacoity                                                                                 &lt;chr&gt; …
-$ ...101                                                                                  &lt;chr&gt; …
-$ ...102                                                                                  &lt;chr&gt; …
-$ `Making Preparation and Assembly for committing Dacoity (Sec.399 &amp; 402 IPC)`            &lt;dbl&gt; …
-$ `Criminal Misappropriation (Sec.403/404 r/w Other IPC)`                                 &lt;dbl&gt; …
-$ `Criminal Breach of Trust (Sec.406 to 409 IPC)`                                         &lt;dbl&gt; …
-$ `Dishonestly Receiving/Dealing-in Stolen Property (Sec.411 to 414 IPC)`                 &lt;dbl&gt; …
-$ `Offences against Property (Total)`                                                     &lt;dbl&gt; …
-$ Counterfeiting                                                                          &lt;chr&gt; …
-$ ...109                                                                                  &lt;chr&gt; …
-$ ...110                                                                                  &lt;chr&gt; …
-$ ...111                                                                                  &lt;chr&gt; …
-$ ...112                                                                                  &lt;chr&gt; …
-$ `Forgery, Cheating &amp; Fraud`                                                             &lt;chr&gt; …
-$ ...114                                                                                  &lt;chr&gt; …
-$ ...115                                                                                  &lt;chr&gt; …
-$ ...116                                                                                  &lt;chr&gt; …
-$ ...117                                                                                  &lt;chr&gt; …
-$ ...118                                                                                  &lt;chr&gt; …
-$ ...119                                                                                  &lt;chr&gt; …
-$ ...120                                                                                  &lt;chr&gt; …
-$ `Offences Relating to Documents &amp; Property Marks (Total)`                               &lt;dbl&gt; …
-$ `Offences relating to Elections (Sec.171-E to 171-I r/w IPC/SLL)`                       &lt;dbl&gt; …
-$ `Disobedience to order duly promulgated by Public Servant (Sec.188)`                    &lt;dbl&gt; …
-$ `Harbouring an Offender (Sec.212/216/216A IPC)`                                         &lt;dbl&gt; …
-$ `Offences relating to Adulteration or Sale of Food/Drugs (Sec.272/273/274/275/276 IPC)` &lt;dbl&gt; …
-$ `Rash Driving on Public way (Sec.279/279 r/w 336/337/338/Other IPC)`                    &lt;chr&gt; …
-$ ...127                                                                                  &lt;chr&gt; …
-$ ...128                                                                                  &lt;chr&gt; …
-$ `Rash Driving on Public way`                                                            &lt;chr&gt; …
-$ `Obstruction on Public way (Sec.283 IPC)`                                               &lt;dbl&gt; …
-$ `Sale of obscene Books/Objects (Sec.292 &amp; 293)`                                         &lt;dbl&gt; …
-$ `Obscene Acts and Songs at Public Places (Sec.294)`                                     &lt;dbl&gt; …
-$ `Offences relating to Religion (Sec.295 to 297)`                                        &lt;dbl&gt; …
-$ `Cheating by Impersonation (Sec.419 IPC)`                                               &lt;dbl&gt; …
-$ `Offences related to Mischief (Sec.428 to 433)`                                         &lt;dbl&gt; …
-$ `Arson (Sec.435, 436 &amp; 438 IPC)`                                                        &lt;dbl&gt; …
-$ `Criminal Trespass (Sec.447 to 452 IPC)`                                                &lt;dbl&gt; …
-$ `Cruelty by Husband or his Relatives (Sec.498-A IPC)`                                   &lt;dbl&gt; …
-$ `Circulate False/Fake News/Rumours (Sec.505 IPC/Sec.505 r/w IT Act)`                    &lt;dbl&gt; …
-$ `Criminal Intimidation (Sec.506 r/w Other IPC Crimes)`                                  &lt;dbl&gt; …
-$ `Insult to the Modesty of Women (Sec.509 IPC)`                                          &lt;dbl&gt; …
-$ `Miscellaneous IPC Crimes(Total)`                                                       &lt;dbl&gt; …
-$ ...143                                                                                  &lt;dbl&gt; …
-$ ...144                                                                                  &lt;dbl&gt; …</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#IPC_Original &lt;- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#glimpse(IPC_Original)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>IPC <span class="ot">&lt;-</span> IPC <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">5</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>IPC <span class="ot">&lt;-</span> IPC <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">5</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Since, there are many types of crime reported in the data, we will be categorizing them for better analysis.</p>
+<p>Convert to numeric</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>mydata_summed <span class="ot">&lt;-</span> IPC <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(...<span class="dv">1</span> <span class="sc">==</span> <span class="st">"Andhra Pradesh"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>()</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>mydata_summed1 <span class="ot">&lt;-</span> mydata_summed <span class="sc">%&gt;%</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(<span class="fu">as.numeric</span>(...<span class="dv">6</span>) <span class="sc">+</span> <span class="fu">as.numeric</span>(...<span class="dv">7</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> IPC <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"...1"</span>, <span class="st">"...2"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character,as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Group data to reduce cardinality</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>temp_df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">murders =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Murder (Sec.302 IPC)</span><span class="st">`</span>,<span class="st">`</span><span class="at">Dowry Deaths (Sec.304-B IPC)</span><span class="st">`</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">attempted_muders =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Culpable Homicide not amounting to Murder (Sec.304 IPC)</span><span class="st">`</span>,<span class="st">`</span><span class="at">Abetment of Suicide (Sec.305/306 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Attempt to Commit Murder (Sec.307 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Attempt to commit Culpable Homicide (Sec.308 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Attempt to Commit Suicide (Sec.309 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) </span><span class="sc">\r\n</span><span class="st">`</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">death_negligence =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Causing Death by Negligence</span><span class="st">`</span>,<span class="st">`</span><span class="at">...6</span><span class="st">`</span>,<span class="st">`</span><span class="at">...7</span><span class="st">`</span>,<span class="st">`</span><span class="at">...8</span><span class="st">`</span>,<span class="st">`</span><span class="at">...9</span><span class="st">`</span>,<span class="st">`</span><span class="at">...10</span><span class="st">`</span>,<span class="st">`</span><span class="at">...11</span><span class="st">`</span>,<span class="st">`</span><span class="at">...12</span><span class="st">`</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">hurt =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Hurt</span><span class="st">`</span>,<span class="st">`</span><span class="at">Wrongful Restraint/Confinement (Sec.341 to 348 IPC)</span><span class="st">`</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">women_assault =</span> <span class="st">`</span><span class="at">Assault on Women with Intent to Outrage her Modesty</span><span class="st">`</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">kidnapping_abduction =</span> <span class="st">`</span><span class="at">Kidnapping and Abduction</span><span class="st">`</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">human_exploitation =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Human Trafficking (U/S 370)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Exploitation of Trafficked Person 370A IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Selling of Minors for Prostitution (Sec.372 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Buying of Minors for Prostitution (Sec.373 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Rape (Sec.376 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Attempt to Commit Rape (Sec.376/511 IPC)</span><span class="st">`</span>, <span class="st">`</span><span class="at">Unnatural Offences (Sec.377 IPC)</span><span class="st">`</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">state_offence =</span> <span class="st">`</span><span class="at">...64</span><span class="st">`</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">public_tranquility =</span> <span class="st">`</span><span class="at">Offences against Public Tranquillity (Total)</span><span class="st">`</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">movable_property =</span> <span class="st">`</span><span class="at">Offences against Property (Total)</span><span class="st">`</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">document_fraud =</span> <span class="st">`</span><span class="at">Offences Relating to Documents &amp; Property Marks (Total)</span><span class="st">`</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">miscellaneous =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">Miscellaneous IPC Crimes(Total)</span><span class="st">`</span>, <span class="st">`</span><span class="at">...143</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Join into df</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(IPC<span class="sc">$</span><span class="st">"...1"</span>, IPC<span class="sc">$</span><span class="st">"...2"</span>, temp_df) <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">rename</span>(<span class="st">"State"</span> <span class="ot">=</span> <span class="st">"IPC$...1"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"District"</span> <span class="ot">=</span> <span class="st">"IPC$...2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="sll-data" class="level2">
+<h2 class="anchored" data-anchor-id="sll-data">SLL data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#SLL file has been modified the same way as IPC</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>SLL <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">"data/aspatial/2 Districtwise SLL Crimes_2021.xlsx"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">5</span><span class="sc">:</span><span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+• `` -&gt; `...1`
+• `` -&gt; `...2`
+• `` -&gt; `...4`
+• `` -&gt; `...5`
+• `` -&gt; `...6`
+• `` -&gt; `...7`
+• `` -&gt; `...9`
+• `` -&gt; `...10`
+• `` -&gt; `...11`
+• `` -&gt; `...12`
+• `` -&gt; `...13`
+• `` -&gt; `...14`
+• `` -&gt; `...16`
+• `` -&gt; `...17`
+• `` -&gt; `...18`
+• `` -&gt; `...19`
+• `` -&gt; `...21`
+• `` -&gt; `...22`
+• `` -&gt; `...23`
+• `` -&gt; `...25`
+• `` -&gt; `...26`
+• `` -&gt; `...27`
+• `` -&gt; `...28`
+• `` -&gt; `...29`
+• `` -&gt; `...30`
+• `` -&gt; `...31`
+• `` -&gt; `...33`
+• `` -&gt; `...34`
+• `` -&gt; `...35`
+• `` -&gt; `...37`
+• `` -&gt; `...38`
+• `` -&gt; `...39`
+• `` -&gt; `...40`
+• `` -&gt; `...41`
+• `` -&gt; `...42`
+• `` -&gt; `...44`
+• `` -&gt; `...45`
+• `` -&gt; `...46`
+• `` -&gt; `...47`
+• `` -&gt; `...48`
+• `` -&gt; `...50`
+• `` -&gt; `...51`
+• `` -&gt; `...52`
+• `` -&gt; `...53`
+• `` -&gt; `...54`
+• `` -&gt; `...55`
+• `` -&gt; `...56`
+• `` -&gt; `...58`
+• `` -&gt; `...59`
+• `` -&gt; `...60`
+• `` -&gt; `...61`
+• `` -&gt; `...63`
+• `` -&gt; `...64`
+• `` -&gt; `...66`
+• `` -&gt; `...67`
+• `` -&gt; `...68`
+• `` -&gt; `...69`
+• `` -&gt; `...71`
+• `` -&gt; `...72`
+• `` -&gt; `...73`
+• `` -&gt; `...75`
+• `` -&gt; `...76`
+• `` -&gt; `...77`
+• `` -&gt; `...78`
+• `` -&gt; `...79`
+• `` -&gt; `...80`
+• `` -&gt; `...81`
+• `` -&gt; `...82`
+• `` -&gt; `...83`
+• `` -&gt; `...84`
+• `` -&gt; `...85`
+• `` -&gt; `...86`
+• `` -&gt; `...87`
+• `` -&gt; `...88`
+• `` -&gt; `...89`
+• `` -&gt; `...90`
+• `` -&gt; `...91`</code></pre>
+</div>
+</div>
+<p>Convert to numeric</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> SLL <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"...1"</span>, <span class="st">"...2"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_if</span>(is.character,as.numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Group data to reduce cardinality</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>temp_df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">women =</span> <span class="st">`</span><span class="at">...7</span><span class="st">`</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">children =</span> <span class="st">`</span><span class="at">...14</span><span class="st">`</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">st_sc =</span> <span class="st">`</span><span class="at">...19</span><span class="st">`</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">state =</span> <span class="st">`</span><span class="at">...23</span><span class="st">`</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">arms_related =</span> <span class="st">`</span><span class="at">...31</span><span class="st">`</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">information_infringement =</span> <span class="st">`</span><span class="at">...35</span><span class="st">`</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">trade_finance =</span> <span class="st">`</span><span class="at">...42</span><span class="st">`</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">narcotics =</span> <span class="st">`</span><span class="at">...48</span><span class="st">`</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">environment =</span> <span class="st">`</span><span class="at">...56</span><span class="st">`</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">foreigner =</span> <span class="st">`</span><span class="at">...61</span><span class="st">`</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">railway =</span> <span class="st">`</span><span class="at">...64</span><span class="st">`</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">media =</span> <span class="st">`</span><span class="at">...69</span><span class="st">`</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">food =</span> <span class="st">`</span><span class="at">...73</span><span class="st">`</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">others =</span> <span class="fu">sum</span>(<span class="st">`</span><span class="at">...91</span><span class="st">`</span>, <span class="st">`</span><span class="at">Other SLL Crimes</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Join into df</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(SLL<span class="sc">$</span><span class="st">"...1"</span>, SLL<span class="sc">$</span><span class="st">"...2"</span>, temp_df) <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">rename</span>(<span class="st">"State"</span> <span class="ot">=</span> <span class="st">"SLL$...1"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"District"</span> <span class="ot">=</span> <span class="st">"SLL$...2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
