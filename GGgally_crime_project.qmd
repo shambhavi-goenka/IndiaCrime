@@ -7,9 +7,19 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 ```
 
 ```{r}
-IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
-glimpse(IPC)
+IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
+IPC_Original <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
+glimpse(IPC_Original)
 ```
+
+We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
+
+```{r}
+IPC <- IPC %>%
+  slice(5:n())
+```
+
+Since, there are many types of crime reported in the data, we will be categorizing them for better analysis.
 
 ```{r}
 mydata_summed <- IPC %>%
