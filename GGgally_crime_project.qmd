@@ -8,8 +8,8 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 
 ```{r}
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
-IPC_Original <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
-glimpse(IPC_Original)
+#IPC_Original <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
+#glimpse(IPC_Original)
 ```
 
 We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
@@ -19,14 +19,41 @@ IPC <- IPC %>%
   slice(5:n())
 ```
 
-Since, there are many types of crime reported in the data, we will be categorizing them for better analysis.
+Convert to numeric
 
 ```{r}
-mydata_summed <- IPC %>%
-  filter(...1 == "Andhra Pradesh") %>%
+df <- IPC %>%
+  select(-c("...1", "...2")) %>%
+  mutate_if(is.character,as.numeric)
+
+df <- cbind(IPC$"...1", IPC$"...2", df) %>% 
+       rename("State" = "IPC$...1",
+              "District" = "IPC$...2")
+```
+
+Extract state wise data
+
+```{r}
+mydata_summed <- df %>%
+  filter(State == "Andhra Pradesh") %>%
   rowwise()
+```
 
-mydata_summed1 <- mydata_summed %>%
-  summarise(total = sum(as.numeric(...6) + as.numeric(...7)))
+Create groupings
 
+```{r}
+murders <- mydata_summed %>%
+  summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`))
+
+attempted_muders <- mydata_summed %>%
+  summarise(attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`))
+
+death_negligence <- mydata_summed %>%
+  summarise(death_negligence = sum(`Causing Death by Negligence`,`...6`,`...7`,`...8`,`...9`,`...10`,`...11`,`...12`))
+```
+
+Put in new df
+
+```{r}
+new_df <- cbind(mydata_summed$State, mydata_summed$District, murders, attempted_muders, death_negligence)
 ```
