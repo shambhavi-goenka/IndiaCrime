@@ -8,7 +8,11 @@ title: "GGgallyy_Indiacrime_projectt"
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr)
 ```
 
-## IPC Data
+# Aspatial Data
+
+## Importing the Data
+
+### IPC Data
 
 ```{r}
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
@@ -55,7 +59,7 @@ df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
               "District" = "IPC$...2")
 ```
 
-## SLL data
+### SLL Data
 
 ```{r}
 #SLL file has been modified the same way as IPC
@@ -99,7 +103,7 @@ df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
               "District" = "SLL$...2")
 ```
 
-# DATA Preprocessing
+## DATA Preprocessing
 
 ```{r}
 IPC <- read_rds("data/rds/IPC.rds")
@@ -107,4 +111,22 @@ IPC <- read_rds("data/rds/IPC.rds")
 
 ```{r}
 SLL <- read_rds("data/rds/SLL.rds")
+```
+
+### Check for Missing Values
+
+```{r}
+IPC[rowSums(is.na(IPC))!=0,]
+```
+
+```{r}
+SLL[rowSums(is.na(SLL))!=0,]
+```
+
+# Geospatial Data
+
+Import the Data
+
+```{r}
+india <- st_read("data/geospatial/output.shp")
 ```
