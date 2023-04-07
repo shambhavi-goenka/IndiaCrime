@@ -1,6 +1,10 @@
 ---
-title: "GGgallyy_Indiacrime_project"
+title: "GGgallyy_Indiacrime_projectt"
 ---
+
+Install Packages
+
+testing - kelly
 
 ```{r}
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr)
@@ -9,9 +13,7 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 ## IPC Data
 
 ```{r}
-IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
-#IPC_Original <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
-#glimpse(IPC_Original)
+IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
 ```
 
 We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
