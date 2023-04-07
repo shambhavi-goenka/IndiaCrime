@@ -2,21 +2,37 @@
 title: "GGgallyy_Indiacrime_projectt"
 ---
 
+<<<<<<< HEAD
 Install Packages
 
 
 testing - kelly
+=======
+# Install Packages
+>>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
 ```{r}
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr,stringdist)
 ```
 
+<<<<<<< HEAD
 (Aspatial)
 
 
 ```{r}
   IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
   SLL <- read_xlsx("data/2 Districtwise SLL Crimes_2021.xlsx")
+=======
+# Aspatial Data
+
+## Importing the Data
+
+### IPC Data
+
+```{r}
+IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
+```
+>>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
 ```
 
@@ -85,5 +101,75 @@ for (value in aspatial_districts) {
 
 ```
 
+<<<<<<< HEAD
+=======
+### SLL Data
+>>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
 
+<<<<<<< HEAD
+=======
+Convert to numeric
+
+```{r}
+df <- SLL %>%
+  select(-c("...1", "...2")) %>%
+  mutate_if(is.character,as.numeric)
+```
+
+Group data to reduce cardinality
+
+```{r}
+temp_df <- df |> rowwise() |>
+  summarise(women = `...7`,
+            children = `...14`,
+            st_sc = `...19`,
+            state = `...23`,
+            arms_related = `...31`,
+            information_infringement = `...35`,
+            trade_finance = `...42`,
+            narcotics = `...48`,
+            environment = `...56`,
+            foreigner = `...61`,
+            railway = `...64`,
+            media = `...69`,
+            food = `...73`,
+            others = sum(`...91`, `Other SLL Crimes`))
+```
+
+Join into df
+
+```{r}
+df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
+       rename("State" = "SLL$...1",
+              "District" = "SLL$...2")
+```
+
+## DATA Preprocessing
+
+```{r}
+IPC <- read_rds("data/rds/IPC.rds")
+```
+
+```{r}
+SLL <- read_rds("data/rds/SLL.rds")
+```
+
+### Check for Missing Values
+
+```{r}
+IPC[rowSums(is.na(IPC))!=0,]
+```
+
+```{r}
+SLL[rowSums(is.na(SLL))!=0,]
+```
+
+# Geospatial Data
+
+Import the Data
+
+```{r}
+india <- st_read("data/geospatial/output.shp")
+```
+>>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
