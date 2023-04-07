@@ -2,9 +2,7 @@
 title: "GGgallyy_Indiacrime_projectt"
 ---
 
-Install Packages
-
-testing - kelly
+# Install Packages
 
 ```{r}
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr)
@@ -13,7 +11,7 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 ## IPC Data
 
 ```{r}
-IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
+IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
 ```
 
 We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
@@ -99,4 +97,14 @@ Join into df
 df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
        rename("State" = "SLL$...1",
               "District" = "SLL$...2")
+```
+
+# DATA Preprocessing
+
+```{r}
+IPC <- read_rds("data/rds/IPC.rds")
+```
+
+```{r}
+SLL <- read_rds("data/rds/SLL.rds")
 ```
