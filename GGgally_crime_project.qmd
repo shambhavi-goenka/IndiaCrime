@@ -1,115 +1,80 @@
 ---
-title: "GGgallyy_Indiacrime_projectt"
+title: "Indiacrime_project"
 ---
 
-<<<<<<< HEAD
-Install Packages
-
-
-testing - kelly
-=======
-# Install Packages
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
+## Install Packages
 
 ```{r}
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr,stringdist)
 ```
 
-<<<<<<< HEAD
-(Aspatial)
+# Aspatial Data Pre-Processing 
 
-
-```{r}
-  IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
-  SLL <- read_xlsx("data/2 Districtwise SLL Crimes_2021.xlsx")
-=======
-# Aspatial Data
-
-## Importing the Data
-
-### IPC Data
+## Read Data File (IPC)
 
 ```{r}
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
 ```
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
-```
-
-```{r}
-
-IPC <- read_rds("data/rds/IPC.rds")
-SLL <- read_rds("data/rds/SLL.rds")
-```
-
-Check for missing values
-```{r}
-IPC[rowSums(is.na(IPC))!=0,]
-SLL[rowSums(is.na(SLL))!=0,]
-```
-
-(Geospatial)
+We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
 
 ```{r}
-
-boundary <- st_read(dsn="data/geospatial/India Boundary",
-                     layer="India_boundary")
-
-state <- st_read(dsn="data/geospatial/India States",
-                     layer="Indian_states")
-
-district <- st_read(dsn="data/geospatial/India District",
-                     layer="output")
-
+IPC <- IPC %>%
+  slice(5:n())
 ```
 
-```{r}
-tm_shape(district) + 
-  tm_polygons("statename")
-```
-
-```{r}
-aspatial_districts <-  unique(IPC$District)
-geospatial_districts <- unique(district$distname)
-
-distance_df <- data.frame(matrix(nrow = 0, ncol = 3))
-colnames(distance_df) = c("aspatial", "similarity", "closest geospatial")
-
-new_aspatial <- list()
-threshold <- 0.149 # more similar means smaller value
-
-for (value in aspatial_districts) {
-  
-  distances <- stringdist(value, geospatial_districts, method = "jw") #distance matrix
-  closest_match_index <- which.min(distances) #index
-  
-  #similar enough
-  if (distances[closest_match_index] <= threshold) {
-    
-    closest_match <- geospatial_districts[closest_match_index]
-    new_aspatial <- c(new_aspatial, closest_match)
-    
-  } 
-  #not similar enough 
-  else {
-    new_aspatial <- c(new_aspatial, value)
-  }
-  
-  #distance_df[nrow(distance_df) + 1, ] = c(value, distances[closest_match_index], closest_match)
-  
-}
-
-```
-
-<<<<<<< HEAD
-=======
-### SLL Data
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
-
-
-<<<<<<< HEAD
-=======
 Convert to numeric
+
+```{r}
+df <- IPC %>%
+  select(-c("...1", "...2")) %>%
+  mutate_if(is.character,as.numeric)
+```
+
+Group data to reduce cardinality
+
+```{r}
+temp_df <- df |> rowwise() |>
+  summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`),
+            attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`),
+            death_negligence = sum(`Causing Death by Negligence`,`...6`,`...7`,`...8`,`...9`,`...10`,`...11`,`...12`),
+            hurt = sum(`Hurt`,`Wrongful Restraint/Confinement (Sec.341 to 348 IPC)`),
+            women_assault = `Assault on Women with Intent to Outrage her Modesty`,
+            kidnapping_abduction = `Kidnapping and Abduction`,
+            human_exploitation = sum(`Human Trafficking (U/S 370)`, `Exploitation of Trafficked Person 370A IPC)`, `Selling of Minors for Prostitution (Sec.372 IPC)`, `Buying of Minors for Prostitution (Sec.373 IPC)`, `Rape (Sec.376 IPC)`, `Attempt to Commit Rape (Sec.376/511 IPC)`, `Unnatural Offences (Sec.377 IPC)`),
+            state_offence = `...64`,
+            public_tranquility = `Offences against Public Tranquillity (Total)`,
+            movable_property = `Offences against Property (Total)`,
+            document_fraud = `Offences Relating to Documents & Property Marks (Total)`,
+            miscellaneous = sum(`Miscellaneous IPC Crimes(Total)`, `...143`))
+```
+
+Join into df
+
+```{r}
+df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
+       rename("State" = "IPC$...1",
+              "District" = "IPC$...2")
+```
+
+Save as rds
+
+```{r}
+write_rds(df, "data/rds/IPC.rds")
+```
+
+Read IPC rds file
+
+```{r}
+IPC_new <- read_rds("data/rds/IPC.rds")
+```
+
+## Read Data File (SLL)
+
+```{r}
+SLL <- read_xlsx("data/aspatial/2 Districtwise SLL Crimes_2021.xlsx") %>%
+  slice(5:n())
+```
 
 ```{r}
 df <- SLL %>%
@@ -145,31 +110,98 @@ df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
               "District" = "SLL$...2")
 ```
 
-## DATA Preprocessing
+Save as rds
 
 ```{r}
-IPC <- read_rds("data/rds/IPC.rds")
+write_rds(df, "data/rds/SLL.rds")
+```
+
+Read SLL rds file
+
+```{r}
+SLL_new <- read_rds("data/rds/SLL.rds")
+```
+
+# Geospatial Data Pre-Processing 
+
+## Read Data File (India District level)
+
+```{r}
+India_District <- st_read(dsn = "data/geospatial/data (1)", layer="polbnda_ind")
 ```
 
 ```{r}
-SLL <- read_rds("data/rds/SLL.rds")
-```
-
-### Check for Missing Values
-
-```{r}
-IPC[rowSums(is.na(IPC))!=0,]
+India_District_2 <- st_read(dsn = "data/geospatial/India District", layer="output")
 ```
 
 ```{r}
-SLL[rowSums(is.na(SLL))!=0,]
+st_crs(India_District)
+st_crs(India_District_2)
 ```
-
-# Geospatial Data
-
-Import the Data
 
 ```{r}
-india <- st_read("data/geospatial/output.shp")
+#transform WGS84 to ESPG code 3149 (india)
+India_District <- st_transform(India_District, 3149)
+st_crs(India_District)
+
+India_District_2 <- st_transform(India_District_2, 3149)
+st_crs(India_District_2)
+
 ```
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
+
+```{r}
+plot(st_geometry(India_District))
+plot(st_geometry(India_District_2))
+```
+
+```{r}
+tm_shape(India_District) + 
+  tm_polygons("laa")
+```
+
+```{r}
+tm_shape(India_District_2) + 
+  tm_polygons("statename")
+```
+
+```{r}
+tm_shape(India_District) + 
+  tm_polygons("nam")
+```
+
+Joining Aspatial and Geospatial Data files
+
+```{r}
+colnames(India_District)
+```
+
+```{r}
+colnames(India_District_2)
+```
+
+```{r}
+colnames(IPC_new)
+```
+
+```{r}
+combined_India_districtlevels <- left_join(India_District, IPC_new,by=c(
+                                "laa"="District"))
+```
+
+```{r}
+combined_India_districtlevels2 <- left_join(IPC_new, India_District_2,by=c(
+                                "District"="distname"))
+```
+
+Visualise our joined data file
+
+```{r}
+combined_India_districtlevels2 <- st_as_sf(combined_India_districtlevels2)
+
+prelim_Unvaccinated = tm_shape(combined_India_districtlevels2)+
+  tm_fill("District") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="Preliminary Unvaccinated Count")
+
+prelim_Unvaccinated
+```
