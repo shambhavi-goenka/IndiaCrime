@@ -2,27 +2,12 @@
 title: "GGgallyy_Indiacrime_projectt"
 ---
 
-<<<<<<< HEAD
-Install Packages
-
-
-testing - kelly
-=======
 # Install Packages
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
 ```{r}
 pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr,stringdist)
 ```
 
-<<<<<<< HEAD
-(Aspatial)
-
-
-```{r}
-  IPC <- read_xlsx("data/1 Districtwise IPC Crimes_2021.xlsx")
-  SLL <- read_xlsx("data/2 Districtwise SLL Crimes_2021.xlsx")
-=======
 # Aspatial Data
 
 ## Importing the Data
@@ -32,83 +17,7 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 ```{r}
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
 ```
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
 
-```
-
-```{r}
-
-IPC <- read_rds("data/rds/IPC.rds")
-SLL <- read_rds("data/rds/SLL.rds")
-```
-
-Check for missing values
-```{r}
-IPC[rowSums(is.na(IPC))!=0,]
-SLL[rowSums(is.na(SLL))!=0,]
-```
-
-(Geospatial)
-
-```{r}
-
-boundary <- st_read(dsn="data/geospatial/India Boundary",
-                     layer="India_boundary")
-
-state <- st_read(dsn="data/geospatial/India States",
-                     layer="Indian_states")
-
-district <- st_read(dsn="data/geospatial/India District",
-                     layer="output")
-
-```
-
-```{r}
-tm_shape(district) + 
-  tm_polygons("statename")
-```
-
-```{r}
-aspatial_districts <-  unique(IPC$District)
-geospatial_districts <- unique(district$distname)
-
-distance_df <- data.frame(matrix(nrow = 0, ncol = 3))
-colnames(distance_df) = c("aspatial", "similarity", "closest geospatial")
-
-new_aspatial <- list()
-threshold <- 0.149 # more similar means smaller value
-
-for (value in aspatial_districts) {
-  
-  distances <- stringdist(value, geospatial_districts, method = "jw") #distance matrix
-  closest_match_index <- which.min(distances) #index
-  
-  #similar enough
-  if (distances[closest_match_index] <= threshold) {
-    
-    closest_match <- geospatial_districts[closest_match_index]
-    new_aspatial <- c(new_aspatial, closest_match)
-    
-  } 
-  #not similar enough 
-  else {
-    new_aspatial <- c(new_aspatial, value)
-  }
-  
-  #distance_df[nrow(distance_df) + 1, ] = c(value, distances[closest_match_index], closest_match)
-  
-}
-
-```
-
-<<<<<<< HEAD
-=======
-### SLL Data
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
-
-
-<<<<<<< HEAD
-=======
 Convert to numeric
 
 ```{r}
@@ -172,4 +81,40 @@ Import the Data
 ```{r}
 india <- st_read("data/geospatial/output.shp")
 ```
->>>>>>> af718c61074c03c2c0276f3b0b9adb1851c42d33
+
+```{r}
+tm_shape(district)+
+  tm_polygons("statename")
+```
+
+```{r}
+aspatial_districts <-  unique(IPC$District)
+geospatial_districts <- unique(india$distname)
+
+distance_df <- data.frame(matrix(nrow = 0, ncol = 3))
+colnames(distance_df) = c("aspatial", "similarity", "closest geospatial")
+
+new_aspatial <- list()
+threshold <- 0.149 # more similar means smaller value
+
+for (value in aspatial_districts) {
+  
+  distances <- stringdist(value, geospatial_districts, method = "jw") #distance matrix
+  closest_match_index <- which.min(distances) #index
+  
+  #similar enough
+  if (distances[closest_match_index] <= threshold) {
+    
+    closest_match <- geospatial_districts[closest_match_index]
+    new_aspatial <- c(new_aspatial, closest_match)
+    
+  } 
+  #not similar enough 
+  else {
+    new_aspatial <- c(new_aspatial, value)
+  }
+  
+  #distance_df[nrow(distance_df) + 1, ] = c(value, distances[closest_match_index], closest_match)
+  
+}
+```
