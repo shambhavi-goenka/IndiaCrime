@@ -1,5 +1,5 @@
 ---
-title: "GGgallyy_Indiacrime_project"
+title: "EDA - part 1 (inital)"
 ---
 
 ```{r}
