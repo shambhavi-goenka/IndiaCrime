@@ -13,14 +13,14 @@ pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, pl
 ## Read Data File (IPC)
 
 ```{r}
-#| echo: false
+#| eval: false
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
 ```
 
 We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
 
 ```{r}
-#| echo: false
+#| eval: false
 IPC <- IPC %>%
   slice(5:n())
 ```
@@ -28,7 +28,7 @@ IPC <- IPC %>%
 ### Convert to numeric
 
 ```{r}
-#| echo: false
+#| eval: false
 df <- IPC %>%
   select(-c("...1", "...2")) %>%
   mutate_if(is.character,as.numeric)
@@ -37,7 +37,7 @@ df <- IPC %>%
 ### Group data to reduce cardinality
 
 ```{r}
-#| echo: false
+#| eval: false
 temp_df <- df |> rowwise() |>
   summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`),
             attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`),
@@ -56,7 +56,7 @@ temp_df <- df |> rowwise() |>
 ### Join into df
 
 ```{r}
-#| echo: false
+#| eval: false
 df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
        rename("State" = "IPC$...1",
               "District" = "IPC$...2")
@@ -65,7 +65,7 @@ df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
 ### Save as rds
 
 ```{r}
-#| echo: false
+#| eval: false
 write_rds(df, "data/rds/IPC.rds")
 ```
 
@@ -78,13 +78,13 @@ IPC_new <- read_rds("data/rds/IPC.rds")
 ## Read Data File (SLL)
 
 ```{r}
-#| echo: false
+#| eval: false
 SLL <- read_xlsx("data/aspatial/2 Districtwise SLL Crimes_2021.xlsx") %>%
   slice(5:n())
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 df <- SLL %>%
   select(-c("...1", "...2")) %>%
   mutate_if(is.character,as.numeric)
@@ -93,7 +93,7 @@ df <- SLL %>%
 ### Group data to reduce cardinality
 
 ```{r}
-#| echo: false
+#| eval: false
 temp_df <- df |> rowwise() |>
   summarise(women = `...7`,
             children = `...14`,
@@ -114,7 +114,7 @@ temp_df <- df |> rowwise() |>
 ### Join into df
 
 ```{r}
-#| echo: false
+#| eval: false
 df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
        rename("State" = "SLL$...1",
               "District" = "SLL$...2")
@@ -123,7 +123,7 @@ df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
 ### Save as rds
 
 ```{r}
-#| echo: false
+#| eval: false
 write_rds(df, "data/rds/SLL.rds")
 ```
 
@@ -146,7 +146,7 @@ mpsz <- subset(mpsz, select = c(statename, distname))
 ## IPC Dataset
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_states <-  unique(IPC$State)
 geospatial_states <- unique(mpsz$statename)
 common_states <- intersect(aspatial_states, geospatial_states)
@@ -157,12 +157,12 @@ geospatial_minus_aspatial_states <- setdiff(geospatial_states, common_states)
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_states
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_states
 ```
 
@@ -183,7 +183,7 @@ mpsz <- mpsz %>%
 District Version
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_districts <-  unique(IPC$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -194,12 +194,12 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
@@ -208,13 +208,13 @@ Too many here!
 Here, the geospatial naming will be followed!
 
 ```{r}
-#| echo: false
+#| eval: false
 distance_df <- data.frame(matrix(nrow = 0, ncol = 3))
 colnames(distance_df) = c("aspatial", "similarity", "closest geospatial")
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 new_aspatial <- list()
 threshold <- 0.149 # more similar means smaller value
 #aspatial_districts <- IPC$District
@@ -251,6 +251,7 @@ IPC$District <- new_aspatial
 Numbers after fuzzy search!
 
 ```{r}
+#| eval: false
 aspatial_districts <-  unique(IPC$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -261,12 +262,12 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
@@ -285,7 +286,7 @@ After checking, here's the new list.
 There were a lot of mismatch in the data between the geospatial and aspatial data as the geospatial data is from 2014 and the aspatial data is from 2021. Furthermore, the aspatial data is very unclean as it contains sub-districts and towns along with the district names.
 
 ```{r}
-#| echo: false
+#| eval: false
 #IPC <- read_rds("data/aspatial/rds/IPC.rds")
 unique_aspatial_districts <- read.csv(file = 'asp.csv')
 
@@ -299,7 +300,7 @@ IPC <- IPC[IPC$District != "remove", ]
 When we check again, we see that the mismatch values have decreased.
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_districts <-  unique(IPC$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -312,26 +313,26 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 Other than Warangal and Kashmir that have been changed, Mumbai Subarbans need to be added into Mumbai and the remaining data is to be removed.
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
 For the aspatial data, CID, GRP, Cyber, Cyber Branch and Cyber Cell are not needed.
 
 ```{r}
-#| echo: false
+#| eval: false
 IPC <-IPC[!(IPC$District=="CID" | IPC$District=="GRP" | IPC$District=="Crime Branch" | IPC$District=="Cyber" | IPC$District=="Cyber Cell"),]
 ```
 
 For the geospatial data, renaming has to be done to accomodate Kashmir, Warangal (R) and (U) and Mumbai and Mumbai Suburbans have to be joined. Further changes will be checked after.
 
 ```{r}
-#| echo: false
+#| eval: false
 #change names
 mpsz$distname[mpsz$distname == "DATA NOT AVAILABLE"] <- "Kashmir"
 mpsz$distname[mpsz$distname == "Warangal (R)"] <- "Warangal"
@@ -345,7 +346,7 @@ mpsz$geometry[mpsz$distname == "Mumbai"] <- st_combine(mpsz$geometry[mpsz$distna
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 #check combination 
 #plot(test_mpsz[445,])
 ```
@@ -355,12 +356,12 @@ Now there won't be any aspatial values left to process. The geospatial value wil
 Most of the Geospatial values are either incomplete district names for certain states or retired restricts.
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 #Sikkim State
 IPC$District[IPC$District == "North" & IPC$State == "Sikkim"] <- "North District"
 IPC$District[IPC$District == "East" & IPC$State == "Sikkim"] <- "East District"
@@ -399,7 +400,7 @@ mpsz <- mpsz[mpsz$distname != "Medchal", ] #remove
 Now lets remove the duplicates in geospatial data
 
 ```{r}
-#| echo: false
+#| eval: false
 #remove duplicate rows
 mpsz <- mpsz[-c(677, 662, 448, 669, 672, 679, 687),]
 
@@ -410,7 +411,7 @@ rownames(mpsz) <- NULL
 Lets group some values in aspatial data
 
 ```{r}
-#| echo: false
+#| eval: false
 IPC <- IPC %>% group_by(State,District) %>% 
   summarise(across(c(colnames(IPC)[3:14]),sum),
             .groups = 'drop') %>%
@@ -420,7 +421,7 @@ IPC <- IPC %>% group_by(State,District) %>%
 Now, lets write into RDS
 
 ```{r}
-#| echo: false
+#| eval: false
 write_rds(IPC, "data/aspatial/rds/IPC_clean.rds")
 write_rds(mpsz, "data/geospatial/rds/map_clean.rds")
 ```
@@ -432,7 +433,7 @@ write_rds(mpsz, "data/geospatial/rds/map_clean.rds")
 Now, lets start the pre-processing for SSL dataset
 
 ```{r}
-#| echo: false
+#| eval: false
 SLL <- read_rds("data/aspatial/rds/SLL.rds")
 mpsz <- read_rds("data/geospatial/rds/map_clean.rds")
 ```
@@ -440,7 +441,7 @@ mpsz <- read_rds("data/geospatial/rds/map_clean.rds")
 State names have already been cleaned, so only district names have to be cleaned.
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_districts <-  unique(SLL$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -451,19 +452,19 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
 Too many mismatched values as expected, hence, we shall perform Fuzzy Search again.
 
 ```{r}
-#| echo: false
+#| eval: false
 new_aspatial <- list()
 threshold <- 0.149 # more similar means smaller value
 #aspatial_districts <- SLL$District
@@ -500,7 +501,7 @@ SLL$District <- new_aspatial
 Check for Mismatch
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_districts <-  unique(SLL$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -511,12 +512,12 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 geospatial_minus_aspatial_districts
 ```
 
@@ -531,7 +532,7 @@ Mismatched values have come down from 415 to 307 for the aspatial values and fro
 As the IPC and SSL data follow the same format, the values after preprocessing can be reused.
 
 ```{r}
-#| echo: false
+#| eval: false
 #SLL <- read_rds("data/aspatial/rds/SLL.rds")
 unique_aspatial_districts <- read.csv(file = 'sll_asp.csv')
 
@@ -545,7 +546,7 @@ SLL <- SLL[SLL$District != "remove", ]
 When we check again, the mismatched values have decreased.
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_districts <-  unique(SLL$District)
 geospatial_districts <- unique(mpsz$distname)
 common_districts <- intersect(aspatial_districts, geospatial_districts)
@@ -556,7 +557,7 @@ geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_dist
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 aspatial_minus_geospatial_districts
 geospatial_minus_aspatial_districts
 ```
@@ -564,12 +565,12 @@ geospatial_minus_aspatial_districts
 For the aspatial data, CID, GRP, Cyber, Crime Branch and Cyber Cell are not needed.
 
 ```{r}
-#| echo: false
+#| eval: false
 SLL <-SLL[!(SLL$District=="CID" | SLL$District=="GRP" | SLL$District=="Crime Branch" | SLL$District=="Cyber" | SLL$District=="Cyber Cell"),]
 ```
 
 ```{r}
-#| echo: false
+#| eval: false
 #Sikkim State
 SLL$District[SLL$District == "North" & SLL$State == "Sikkim"] <- "North District"
 SLL$District[SLL$District == "East" & SLL$State == "Sikkim"] <- "East District"
@@ -587,7 +588,7 @@ After this district from Anantaput from Andhra Pradesh will be left because ther
 For aspatial data, we can group values.
 
 ```{r}
-#| echo: false
+#| eval: false
 SLL <- SLL %>% group_by(State,District) %>% 
   summarise(across(c(colnames(SLL)[3:16]),sum),
             .groups = 'drop') %>%
@@ -597,7 +598,7 @@ SLL <- SLL %>% group_by(State,District) %>%
 Now, lets write into RDS
 
 ```{r}
-#| echo: false
+#| eval: false
 write_rds(SLL, "data/aspatial/rds/SLL_clean.rds")
 ```
 
@@ -708,13 +709,41 @@ plot(st_geometry(map_Cleaned))
 ```
 
 ```{r}
+#| eval: false
 tm_shape(map_Cleaned) + 
-  tm_polygons("distname")
+  tm_polygons("distname") +
+  tmap_options(check.and.fix = TRUE)
 ```
 
 ```{r}
 IPC_combined_India_districtlevel <- left_join(IPC_Cleaned, map_Cleaned,by=c(
                                 "District"="distname"))
+```
+
+Lets check if any of the Districts are duplicated.
+
+```{r}
+which(duplicated(IPC_combined_India_districtlevel$District))
+```
+
+-   63, 361 and 362 - Aurangabad in Bihar, but for one of the values, the statename is 'Maharashtra' and vice-verca
+
+-   266 and 267 - Bijapur in Karnata, but for one of the values, the statename is 'Chhattisgarh' and vice-verca
+
+-   Rest all are Duplicated Values
+
+-   155
+
+-   465, 466 - Not sure as it is same place but with different polygon values
+
+-   582
+
+```{r}
+IPC_combined_India_districtlevel <- IPC_combined_India_districtlevel[-c(103, 106, 108, 124, 202, 205, 385, 516, 601, 624, 652),]
+
+IPC_combined_India_districtlevel <- subset(IPC_combined_India_districtlevel, !(State == "Bihar" & statename == 'Maharashtra'))
+IPC_combined_India_districtlevel <- subset(IPC_combined_India_districtlevel, !(State == "Maharashtra" & statename == 'Bihar'))
+IPC_combined_India_districtlevel <- subset(IPC_combined_India_districtlevel, !(State == "Karnataka" & statename == 'Chhattisgarh'))
 ```
 
 ```{r}
@@ -744,7 +773,8 @@ IPC_combined_India_districtlevel <- st_as_sf(IPC_combined_India_districtlevel)
 murders = tm_shape(IPC_combined_India_districtlevel)+
   tm_fill("murders") +
   tm_borders(alpha = 0.2) +
-  tm_layout(main.title="Murders Count")
+  tm_layout(main.title="Murders Count") + 
+  tmap_options(check.and.fix = TRUE)
 
 murders
 ```
@@ -860,8 +890,12 @@ SLL_combined_India_districtlevel <- st_as_sf(SLL_combined_India_districtlevel)
 ```
 
 ```{r}
-IPC_combined_India_districtlevel <- st_cast(IPC_combined_India_districtlevel, "POLYGON")
-SLL_combined_India_districtlevel <- st_cast(SLL_combined_India_districtlevel, "POLYGON")
+IPC_combined_India_districtlevel <- st_cast(IPC_combined_India_districtlevel, "MULTIPOLYGON")
+SLL_combined_India_districtlevel <- st_cast(SLL_combined_India_districtlevel, "MULTIPOLYGON")
+```
+
+```{r}
+IPC_combined_India_districtlevel <- st_make_valid(IPC_combined_India_districtlevel)
 ```
 
 ## Computing Contiguity Spatial Weights
@@ -872,48 +906,19 @@ wm_IPC <- poly2nb(IPC_combined_India_districtlevel,
 summary(wm_IPC)
 ```
 
-There are 1056 regions in India. The most connected area unit has 15 neighbours. And there are 57 regions with just 1 neighbour.
+There are 686 regions in India. There is 1 most connected areas unit with 11 neighbours. And there are 5 regions with just no neighbours.
+
+## Row Standardized Weight Matrix
 
 ```{r}
-longitude_IPC <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[1]])
+set.ZeroPolicyOption(TRUE)
 ```
 
 ```{r}
-latitude_IPC <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[2]])
-```
-
-```{r}
-coords <- cbind(longitude_IPC, latitude_IPC)
-```
-
-### Determine the cut-off distance
-
-```{r}
-#k1 <- knn2nb(knearneigh(coords))
-#k1dists <- unlist(nbdists(k1, coords, longlat = TRUE))
-#summary(k1dists)
-```
-
-### Compute Fixed Distance Weight Matrix
-
-```{r}
-#wm_d62 <- dnearneigh(coords, 0, 62, longlat = TRUE)
-#wm_d62
-```
-
-```{r}
-#wm62_lw <- nb2listw(wm_d62, style = 'B', set.ZeroPolicyOption(TRUE))
-#summary(wm62_lw)
-```
-
-```{r}
-knn_IPC <- knn2nb(knearneigh(coords, k=8))
-knn_IPC
-```
-
-```{r}
-rswm_IPC <- nb2listw(knn_IPC, style = 'B')
-summary(rswm_IPC)
+rswm_IPC <- nb2listw(wm_IPC, 
+                   style="B", 
+                   zero.policy = TRUE)
+rswm_IPC
 ```
 
 ## Global Spatial Autocorrelation : Moran's L
@@ -975,12 +980,12 @@ hist(bperm_g$res, freq=TRUE, breaks=20, xlab="Simulated Geary c")
 abline(v=1, col="red") 
 ```
 
-## Spatial Correlogram
+# Spatial Correlogram
 
-### Compute and Plot Moran's L Correlogram
+## Compute and Plot Moran's L Correlogram
 
 ```{r}
-MI_corr <- sp.correlogram(knn_IPC, 
+MI_corr <- sp.correlogram(wm_IPC, 
                           IPC_combined_India_districtlevel$murders, 
                           order=6, 
                           method="I", 
@@ -989,7 +994,7 @@ MI_corr <- sp.correlogram(knn_IPC,
 plot(MI_corr)
 ```
 
-### Compute and Plot Geary's C Correlogram
+## Compute and Plot Geary's C Correlogram
 
 ```{r}
 GC_corr <- sp.correlogram(wm_IPC, 
@@ -999,4 +1004,254 @@ GC_corr <- sp.correlogram(wm_IPC,
                           style="W",
                           zero.policy = TRUE)
 plot(GC_corr)
+```
+
+# Cluster and Outlier Analysis
+
+## Computing local Moran's L
+
+```{r}
+fips <- order(IPC_combined_India_districtlevel$District)
+localMI <- localmoran(IPC_combined_India_districtlevel$murders, rswm_IPC)
+head(localMI)
+```
+
+```{r}
+printCoefmat(data.frame(
+  localMI[fips,], 
+  row.names=IPC_combined_India_districtlevel$District[fips]),
+  check.names=FALSE)
+```
+
+```{r}
+IPC.localMI <- cbind(IPC_combined_India_districtlevel,localMI) %>%
+  rename(Pr.Ii = Pr.z....E.Ii..)
+```
+
+```{r}
+localMI.map <- tm_shape(IPC.localMI) +
+  tm_fill(col = "Ii", 
+          style = "pretty", 
+          title = "local moran statistics") +
+  tm_borders(alpha = 0.5) +
+  tmap_options(check.and.fix = TRUE)
+
+pvalue.map <- tm_shape(IPC.localMI) +
+  tm_fill(col = "Pr.Ii", 
+          breaks=c(-Inf, 0.001, 0.01, 0.05, 0.1, Inf),
+          palette="-Blues", 
+          title = "local Moran's I p-values") +
+  tm_borders(alpha = 0.5) + 
+  tmap_options(check.and.fix = TRUE)
+
+tmap_arrange(localMI.map, pvalue.map, asp=1, ncol=2)
+```
+
+# Creating a LISA Map
+
+## Plotting Moran Scatterplot
+
+```{r}
+nci_IPC <- moran.plot(IPC_combined_India_districtlevel$murders, rswm_IPC,
+                  labels=as.character(IPC_combined_India_districtlevel$District), 
+                  xlab="Murders 2021", 
+                  ylab="Spatially Lag Murders 2021")
+```
+
+## Plotting Moran Scatterplot with standardised variable
+
+```{r}
+IPC_combined_India_districtlevel$Z.murders <- scale(IPC_combined_India_districtlevel$murders) %>% 
+  as.vector 
+```
+
+```{r}
+nci2_IPC <- moran.plot(IPC_combined_India_districtlevel$Z.murders, rswm_IPC,
+                   labels=as.character(IPC_combined_India_districtlevel$District),
+                   xlab="z-murders 2021", 
+                   ylab="Spatially Lag z-murders 2021")
+```
+
+## Preparing Lisa Map Classes
+
+```{r}
+quadrant <- vector(mode="numeric",length=nrow(localMI))
+```
+
+```{r}
+IPC_combined_India_districtlevel$lag_murders <- lag.listw(rswm_IPC, IPC_combined_India_districtlevel$murders)
+DV <- IPC_combined_India_districtlevel$lag_murders - mean(IPC_combined_India_districtlevel$lag_murders)     
+```
+
+```{r}
+LM_I <- localMI[,1] - mean(localMI[,1])    
+```
+
+```{r}
+signif <- 0.05       
+```
+
+```{r}
+quadrant[DV <0 & LM_I>0] <- 1
+quadrant[DV >0 & LM_I<0] <- 2
+quadrant[DV <0 & LM_I<0] <- 3  
+quadrant[DV >0 & LM_I>0] <- 4      
+```
+
+```{r}
+quadrant[localMI[,5]>signif] <- 0
+```
+
+```{r}
+quadrant <- vector(mode="numeric",length=nrow(localMI))
+IPC_combined_India_districtlevel$lag_murders <- lag.listw(rswm_IPC, IPC_combined_India_districtlevel$murders)
+DV <- IPC_combined_India_districtlevel$lag_murders - mean(IPC_combined_India_districtlevel$lag_murders)     
+LM_I <- localMI[,1]   
+signif <- 0.05       
+quadrant[DV <0 & LM_I>0] <- 1
+quadrant[DV >0 & LM_I<0] <- 2
+quadrant[DV <0 & LM_I<0] <- 3  
+quadrant[DV >0 & LM_I>0] <- 4    
+quadrant[localMI[,5]>signif] <- 0
+```
+
+## Plotting LISA Map
+
+```{r}
+IPC.localMI$quadrant <- quadrant
+colors <- c("#ffffff", "#2c7bb6", "#abd9e9", "#fdae61", "#d7191c")
+clusters <- c("insignificant", "low-low", "low-high", "high-low", "high-high")
+
+tm_shape(IPC.localMI) +
+  tm_fill(col = "quadrant", 
+          style = "cat", 
+          palette = colors[c(sort(unique(quadrant)))+1], 
+          labels = clusters[c(sort(unique(quadrant)))+1],
+          popup.vars = c("")) +
+  tm_view(set.zoom.limits = c(11,17)) +
+  tm_borders(alpha=0.5)
+```
+
+```{r}
+murders <- qtm(IPC_combined_India_districtlevel, "murders")
+
+IPC.localMI$quadrant <- quadrant
+colors <- c("#ffffff", "#2c7bb6", "#abd9e9", "#fdae61", "#d7191c")
+clusters <- c("insignificant", "low-low", "low-high", "high-low", "high-high")
+
+LISAmap <- tm_shape(IPC.localMI) +
+  tm_fill(col = "quadrant", 
+          style = "cat", 
+          palette = colors[c(sort(unique(quadrant)))+1], 
+          labels = clusters[c(sort(unique(quadrant)))+1],
+          popup.vars = c("")) +
+  tm_view(set.zoom.limits = c(11,17)) +
+  tm_borders(alpha=0.5)
+
+tmap_arrange(murders, LISAmap, 
+             asp=1, ncol=2)
+```
+
+# Hot Spot and Cold Spot Area Analysis
+
+## Deriving Distance Based Weight Matrix
+
+```{r}
+longitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[1]])
+```
+
+```{r}
+latitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[2]])
+```
+
+```{r}
+coords <- cbind(longitude, latitude)
+```
+
+## Determine the Cut-off distance
+
+```{r}
+#coords <- coordinates(hunan)
+k1_IPC <- knn2nb(knearneigh(coords))
+k1dists_IPC <- unlist(nbdists(k1_IPC, coords, longlat = TRUE))
+summary(k1dists_IPC)
+```
+
+## Computing Fixed Distance Weight Matrix
+
+```{r}
+wm_d62 <- dnearneigh(coords, 0, 62, longlat = TRUE)
+wm_d62
+```
+
+```{r}
+wm62_lw <- nb2listw(wm_d62, style = 'B')
+summary(wm62_lw)
+```
+
+## Computing Adaptive Distance Weight Matrix
+
+```{r}
+knn <- knn2nb(knearneigh(coords, k=6))
+knn
+```
+
+```{r}
+knn_lw <- nb2listw(knn, style = 'B')
+summary(knn_lw)
+```
+
+## Computing Gi Statistics
+
+```{r}
+fips <- order(IPC_combined_India_districtlevel$District)
+gi.fixed <- localG(IPC_combined_India_districtlevel$murders, wm62_lw)
+gi.fixed
+```
+
+```{r}
+IPC.gi <- cbind(IPC_combined_India_districtlevel, as.matrix(gi.fixed)) %>%
+  rename(gstat_fixed = as.matrix.gi.fixed.)
+```
+
+## Mapping Gi values with fixed distance weights
+
+```{r}
+murders1 <- qtm(IPC_combined_India_districtlevel, "murders")
+
+Gimap <-tm_shape(IPC.gi) +
+  tm_fill(col = "gstat_fixed", 
+          style = "pretty",
+          palette="-RdBu",
+          title = "local Gi") +
+  tm_borders(alpha = 0.5)
+
+tmap_arrange(murders1, Gimap, asp=1, ncol=2)
+```
+
+## Gi statistics using adaptive distance
+
+```{r}
+fips <- order(IPC_combined_India_districtlevel$murders)
+gi.adaptive <- localG(IPC_combined_India_districtlevel$murders, knn_lw)
+IPC.gi1 <- cbind(IPC_combined_India_districtlevel, as.matrix(gi.adaptive)) %>%
+  rename(gstat_adaptive = as.matrix.gi.adaptive.)
+```
+
+## Mapping Gi values with adaptive distance weights
+
+```{r}
+murders2 <- qtm(IPC_combined_India_districtlevel, "murders")
+
+Gimap <- tm_shape(IPC.gi1) + 
+  tm_fill(col = "gstat_adaptive", 
+          style = "pretty", 
+          palette="-RdBu", 
+          title = "local Gi") + 
+  tm_borders(alpha = 0.5)
+
+tmap_arrange(murders2, 
+             Gimap, 
+             asp=1, 
+             ncol=2)
 ```
