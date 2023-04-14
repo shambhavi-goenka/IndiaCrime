@@ -867,58 +867,136 @@ SLL_combined_India_districtlevel <- st_cast(SLL_combined_India_districtlevel, "P
 ## Computing Contiguity Spatial Weights
 
 ```{r}
-wm_q <- poly2nb(IPC_combined_India_districtlevel, 
+wm_IPC <- poly2nb(IPC_combined_India_districtlevel, 
                 queen=TRUE)
-summary(wm_q)
+summary(wm_IPC)
 ```
 
 There are 1056 regions in India. The most connected area unit has 15 neighbours. And there are 57 regions with just 1 neighbour.
 
 ```{r}
-rswm_q <- nb2listw(wm_q, 
-                   style="W", 
-                   zero.policy=TRUE)
-rswm_q
+longitude_IPC <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[1]])
 ```
 
 ```{r}
-longitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[1]])
+latitude_IPC <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[2]])
 ```
 
 ```{r}
-latitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[2]])
-```
-
-```{r}
-coords <- cbind(longitude, latitude)
+coords <- cbind(longitude_IPC, latitude_IPC)
 ```
 
 ### Determine the cut-off distance
 
 ```{r}
-k1 <- knn2nb(knearneigh(coords))
-k1dists <- unlist(nbdists(k1, coords, longlat = TRUE))
-summary(k1dists)
+#k1 <- knn2nb(knearneigh(coords))
+#k1dists <- unlist(nbdists(k1, coords, longlat = TRUE))
+#summary(k1dists)
 ```
 
 ### Compute Fixed Distance Weight Matrix
 
 ```{r}
-wm_d62 <- dnearneigh(coords, 0, 62, longlat = TRUE)
-wm_d62
+#wm_d62 <- dnearneigh(coords, 0, 62, longlat = TRUE)
+#wm_d62
 ```
 
 ```{r}
-wm62_lw <- nb2listw(wm_d62, style = 'B', zero.policy = TRUE)
-summary(wm62_lw)
+#wm62_lw <- nb2listw(wm_d62, style = 'B', set.ZeroPolicyOption(TRUE))
+#summary(wm62_lw)
 ```
 
 ```{r}
-knn <- knn2nb(knearneigh(coords, k=8))
-knn
+knn_IPC <- knn2nb(knearneigh(coords, k=8))
+knn_IPC
 ```
 
 ```{r}
-knn_lw <- nb2listw(knn, style = 'B')
-summary(knn_lw)
+rswm_IPC <- nb2listw(knn_IPC, style = 'B')
+summary(rswm_IPC)
+```
+
+## Global Spatial Autocorrelation : Moran's L
+
+Moran's L-test
+
+```{r}
+moran.test(IPC_combined_India_districtlevel$murders, 
+           listw=rswm_IPC, 
+           zero.policy = TRUE, 
+           na.action=na.omit)
+```
+
+Computing Monte Carlo Moran's L
+
+```{r}
+set.seed(1234)
+bperm= moran.mc(IPC_combined_India_districtlevel$murders, 
+                listw=rswm_IPC, 
+                nsim=999, 
+                zero.policy = TRUE, 
+                na.action=na.omit)
+bperm
+```
+
+Visualising Monte Carlo Moran's L
+
+```{r}
+hist(bperm$res, 
+     freq=TRUE, 
+     breaks=20, 
+     xlab="Simulated Moran's I")
+abline(v=0, 
+       col="red") 
+```
+
+## Global Spatial Autocorrelation : Geary's Test
+
+Geary's C Test
+
+```{r}
+geary.test(IPC_combined_India_districtlevel$murders, listw=rswm_IPC)
+```
+
+Computing Monte Carlo Geary's C
+
+```{r}
+set.seed(1234)
+bperm_g=geary.mc(IPC_combined_India_districtlevel$murders, 
+               listw=rswm_IPC, 
+               nsim=999)
+bperm_g
+```
+
+Visualising Monte Carlo Geary's C
+
+```{r}
+hist(bperm_g$res, freq=TRUE, breaks=20, xlab="Simulated Geary c")
+abline(v=1, col="red") 
+```
+
+## Spatial Correlogram
+
+### Compute and Plot Moran's L Correlogram
+
+```{r}
+MI_corr <- sp.correlogram(knn_IPC, 
+                          IPC_combined_India_districtlevel$murders, 
+                          order=6, 
+                          method="I", 
+                          style="W",
+                          zero.policy = TRUE)
+plot(MI_corr)
+```
+
+### Compute and Plot Geary's C Correlogram
+
+```{r}
+GC_corr <- sp.correlogram(wm_IPC, 
+                          IPC_combined_India_districtlevel$murders, 
+                          order=6, 
+                          method="C", 
+                          style="W",
+                          zero.policy = TRUE)
+plot(GC_corr)
 ```
