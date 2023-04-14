@@ -2,53 +2,42 @@
 title: "Indiacrime_project"
 ---
 
-<<<<<<< HEAD
 # Install Packages
-=======
-## Install Packages
->>>>>>> 51fcac7da5059dbe12df9ca1a52e33d64c091ca8
 
 ```{r}
-pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr,stringdist)
+pacman::p_load(sf, tmap, kableExtra, tidyverse, sfdep, readxl, plyr, Kendall, plotly, dplyr,stringdist, spdep)
 ```
 
-<<<<<<< HEAD
-# Aspatial Data
-
-## Importing the Data
-
-### IPC Data
-=======
-# Aspatial Data Pre-Processing 
+# Aspatial Data Pre-Processing
 
 ## Read Data File (IPC)
->>>>>>> 51fcac7da5059dbe12df9ca1a52e33d64c091ca8
 
 ```{r}
+#| echo: false
 IPC <- read_xlsx("data/aspatial/1 Districtwise IPC Crimes_2021.xlsx")
 ```
 
-<<<<<<< HEAD
-=======
 We remove the first 3 rows as they are just headings and have NA values. We will not be using them anyways.
 
 ```{r}
+#| echo: false
 IPC <- IPC %>%
   slice(5:n())
 ```
 
->>>>>>> 51fcac7da5059dbe12df9ca1a52e33d64c091ca8
-Convert to numeric
+### Convert to numeric
 
 ```{r}
+#| echo: false
 df <- IPC %>%
   select(-c("...1", "...2")) %>%
   mutate_if(is.character,as.numeric)
 ```
 
-Group data to reduce cardinality
+### Group data to reduce cardinality
 
 ```{r}
+#| echo: false
 temp_df <- df |> rowwise() |>
   summarise(murders = sum(`Murder (Sec.302 IPC)`,`Dowry Deaths (Sec.304-B IPC)`),
             attempted_muders = sum(`Culpable Homicide not amounting to Murder (Sec.304 IPC)`,`Abetment of Suicide (Sec.305/306 IPC)`, `Attempt to Commit Murder (Sec.307 IPC)`, `Attempt to commit Culpable Homicide (Sec.308 IPC)`, `Attempt to Commit Suicide (Sec.309 IPC)`, `Miscarriage, Infanticide, Foeticide and Abandonment (Sec.313 to 318 IPC) \r\n`),
@@ -64,21 +53,23 @@ temp_df <- df |> rowwise() |>
             miscellaneous = sum(`Miscellaneous IPC Crimes(Total)`, `...143`))
 ```
 
-Join into df
+### Join into df
 
 ```{r}
+#| echo: false
 df <- cbind(IPC$"...1", IPC$"...2", temp_df) %>%
        rename("State" = "IPC$...1",
               "District" = "IPC$...2")
 ```
 
-Save as rds
+### Save as rds
 
 ```{r}
+#| echo: false
 write_rds(df, "data/rds/IPC.rds")
 ```
 
-Read IPC rds file
+### Read IPC rds file
 
 ```{r}
 IPC_new <- read_rds("data/rds/IPC.rds")
@@ -87,19 +78,22 @@ IPC_new <- read_rds("data/rds/IPC.rds")
 ## Read Data File (SLL)
 
 ```{r}
+#| echo: false
 SLL <- read_xlsx("data/aspatial/2 Districtwise SLL Crimes_2021.xlsx") %>%
   slice(5:n())
 ```
 
 ```{r}
+#| echo: false
 df <- SLL %>%
   select(-c("...1", "...2")) %>%
   mutate_if(is.character,as.numeric)
 ```
 
-Group data to reduce cardinality
+### Group data to reduce cardinality
 
 ```{r}
+#| echo: false
 temp_df <- df |> rowwise() |>
   summarise(women = `...7`,
             children = `...14`,
@@ -117,135 +111,128 @@ temp_df <- df |> rowwise() |>
             others = sum(`...91`, `Other SLL Crimes`))
 ```
 
-Join into df
+### Join into df
 
 ```{r}
+#| echo: false
 df <- cbind(SLL$"...1", SLL$"...2", temp_df) %>%
        rename("State" = "SLL$...1",
               "District" = "SLL$...2")
 ```
 
-Save as rds
+### Save as rds
 
 ```{r}
+#| echo: false
 write_rds(df, "data/rds/SLL.rds")
 ```
 
-Read SLL rds file
+### Read SLL rds file
 
 ```{r}
 SLL_new <- read_rds("data/rds/SLL.rds")
 ```
 
-# Geospatial Data Pre-Processing 
+# Geospatial Data Pre-Processing
 
 ## Read Data File (India District level)
 
 ```{r}
-India_District <- st_read(dsn = "data/geospatial/data (1)", layer="polbnda_ind")
+mpsz <- st_read(dsn = "data/geospatial",
+                    layer = "output")
+mpsz <- subset(mpsz, select = c(statename, distname)) 
+```
+
+## IPC Dataset
+
+```{r}
+#| echo: false
+aspatial_states <-  unique(IPC$State)
+geospatial_states <- unique(mpsz$statename)
+common_states <- intersect(aspatial_states, geospatial_states)
+
+
+aspatial_minus_geospatial_states <- setdiff(aspatial_states, common_states)
+geospatial_minus_aspatial_states <- setdiff(geospatial_states, common_states)
 ```
 
 ```{r}
-India_District_2 <- st_read(dsn = "data/geospatial/India District", layer="output")
+#| echo: false
+aspatial_minus_geospatial_states
 ```
 
 ```{r}
-st_crs(India_District)
-st_crs(India_District_2)
+#| echo: false
+geospatial_minus_aspatial_states
 ```
 
+Here, the Aspatial naming will be followed
+
 ```{r}
-#transform WGS84 to ESPG code 3149 (india)
-India_District <- st_transform(India_District, 3149)
-st_crs(India_District)
-
-India_District_2 <- st_transform(India_District_2, 3149)
-st_crs(India_District_2)
-
+mpsz <- mpsz %>%
+        mutate(statename = recode(statename,
+                                  "Chhatisgarh" = "Chhattisgarh",
+                                  "Orissa" = "Odisha",
+                                  "Andaman & Nicobar Islands" = "A&N Islands",
+                                  "Daman & Diu" = "D&N Haveli and Daman & Diu",
+                                  "Dadra & Nagar Haveli" = "D&N Haveli and Daman & Diu",
+                                  "NCT of Delhi" = "Delhi",
+                                  "Pondicherry" = "Puducherry"))
 ```
 
-```{r}
-plot(st_geometry(India_District))
-plot(st_geometry(India_District_2))
-```
+District Version
 
 ```{r}
-tm_shape(India_District) + 
-  tm_polygons("laa")
-```
-
-```{r}
-tm_shape(India_District_2) + 
-  tm_polygons("statename")
-```
-
-```{r}
-tm_shape(India_District) + 
-  tm_polygons("nam")
-```
-
-Joining Aspatial and Geospatial Data files
-
-```{r}
-colnames(India_District)
-```
-
-```{r}
-colnames(India_District_2)
-```
-
-```{r}
-colnames(IPC_new)
-```
-
-```{r}
-combined_India_districtlevels <- left_join(India_District, IPC_new,by=c(
-                                "laa"="District"))
-```
-
-```{r}
-combined_India_districtlevels2 <- left_join(IPC_new, India_District_2,by=c(
-                                "District"="distname"))
-```
-
-Visualise our joined data file
-
-```{r}
-combined_India_districtlevels2 <- st_as_sf(combined_India_districtlevels2)
-
-prelim_Unvaccinated = tm_shape(combined_India_districtlevels2)+
-  tm_fill("District") +
-  tm_borders(alpha = 0.2) +
-  tm_layout(main.title="Preliminary Unvaccinated Count")
-
-prelim_Unvaccinated
-```
-<<<<<<< HEAD
-
-```{r}
-tm_shape(district)+
-  tm_polygons("statename")
-```
-
-```{r}
+#| echo: false
 aspatial_districts <-  unique(IPC$District)
-geospatial_districts <- unique(india$distname)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
 
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+```
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+Too many here!
+
+Here, the geospatial naming will be followed!
+
+```{r}
+#| echo: false
 distance_df <- data.frame(matrix(nrow = 0, ncol = 3))
 colnames(distance_df) = c("aspatial", "similarity", "closest geospatial")
+```
 
+```{r}
+#| echo: false
 new_aspatial <- list()
 threshold <- 0.149 # more similar means smaller value
+#aspatial_districts <- IPC$District
+num <- nrow(IPC)
 
-for (value in aspatial_districts) {
+for(i in 1:num) {
+  
+  row <- IPC[i,]
+  state <- row$State
+  value <- row$District
   
   distances <- stringdist(value, geospatial_districts, method = "jw") #distance matrix
   closest_match_index <- which.min(distances) #index
+  closest_match <- geospatial_districts[closest_match_index]
+  closest_match_state <- mpsz[mpsz$distname == closest_match, ]$statename
   
-  #similar enough
-  if (distances[closest_match_index] <= threshold) {
-    
-    closest_match <- geospatial_districts[closest_match_index]
+  #similar enough and same state
+  if ((distances[closest_match_index] <= threshold) && (state == closest_match_state)) {
     new_aspatial <- c(new_aspatial, closest_match)
     
   } 
@@ -257,6 +244,681 @@ for (value in aspatial_districts) {
   #distance_df[nrow(distance_df) + 1, ] = c(value, distances[closest_match_index], closest_match)
   
 }
+new_aspatial <- flatten_chr(new_aspatial)
+IPC$District <- new_aspatial
 ```
-=======
->>>>>>> 51fcac7da5059dbe12df9ca1a52e33d64c091ca8
+
+Numbers after fuzzy search!
+
+```{r}
+aspatial_districts <-  unique(IPC$District)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
+
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+```
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+Much better but still a lot of work left to preprocess! Hence, we shall move to CSV for ease of preprocessing.
+
+```{r}
+#| eval: false
+#write.csv(data.frame(aspatial_minus_geospatial_districts), "asp.csv", row.names = FALSE)
+#write.csv(mpsz %>% st_drop_geometry(), "geomap.csv", row.names = FALSE)
+```
+
+------------------------------------------------------------------------
+
+After checking, here's the new list.
+
+There were a lot of mismatch in the data between the geospatial and aspatial data as the geospatial data is from 2014 and the aspatial data is from 2021. Furthermore, the aspatial data is very unclean as it contains sub-districts and towns along with the district names.
+
+```{r}
+#| echo: false
+#IPC <- read_rds("data/aspatial/rds/IPC.rds")
+unique_aspatial_districts <- read.csv(file = 'asp.csv')
+
+#replace the names in the IPC file
+IPC$District[match(unique_aspatial_districts$oldname, IPC$District)] <- unique_aspatial_districts$newname
+
+#remove irrelevant variables
+IPC <- IPC[IPC$District != "remove", ]
+```
+
+When we check again, we see that the mismatch values have decreased.
+
+```{r}
+#| echo: false
+aspatial_districts <-  unique(IPC$District)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
+
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+Other than Warangal and Kashmir that have been changed, Mumbai Subarbans need to be added into Mumbai and the remaining data is to be removed.
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+```
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+For the aspatial data, CID, GRP, Cyber, Cyber Branch and Cyber Cell are not needed.
+
+```{r}
+#| echo: false
+IPC <-IPC[!(IPC$District=="CID" | IPC$District=="GRP" | IPC$District=="Crime Branch" | IPC$District=="Cyber" | IPC$District=="Cyber Cell"),]
+```
+
+For the geospatial data, renaming has to be done to accomodate Kashmir, Warangal (R) and (U) and Mumbai and Mumbai Suburbans have to be joined. Further changes will be checked after.
+
+```{r}
+#| echo: false
+#change names
+mpsz$distname[mpsz$distname == "DATA NOT AVAILABLE"] <- "Kashmir"
+mpsz$distname[mpsz$distname == "Warangal (R)"] <- "Warangal"
+mpsz$distname[mpsz$distname == "Warangal (U)"] <- "Warangal"
+mpsz$distname[mpsz$distname == "Mumbai Suburban"] <- "Mumbai"
+
+#combine geometry
+mpsz$geometry[mpsz$distname == "Warangal"] <- st_combine(mpsz$geometry[mpsz$distname == "Warangal"])
+mpsz$geometry[mpsz$distname == "Mumbai"] <- st_combine(mpsz$geometry[mpsz$distname == "Mumbai"])
+
+```
+
+```{r}
+#| echo: false
+#check combination 
+#plot(test_mpsz[445,])
+```
+
+Now there won't be any aspatial values left to process. The geospatial value will require manual lookup and changes will be made to the aspatial dataset.
+
+Most of the Geospatial values are either incomplete district names for certain states or retired restricts.
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+```{r}
+#| echo: false
+#Sikkim State
+IPC$District[IPC$District == "North" & IPC$State == "Sikkim"] <- "North District"
+IPC$District[IPC$District == "East" & IPC$State == "Sikkim"] <- "East District"
+IPC$District[IPC$District == "South" & IPC$State == "Sikkim"] <- "South District"
+IPC$District[IPC$District == "West" & IPC$State == "Sikkim"] <- "West District"
+
+#Tripura State
+IPC$District[IPC$District == "West" & IPC$State == "Tripura"] <- "West Tripura"
+IPC$District[IPC$District == "North" & IPC$State == "Tripura"] <- "North Tripura"
+IPC$District[IPC$District == "South" & IPC$State == "Tripura"] <- "South Tripura"
+
+#Pondicherry State - Mahe and Yanam - suss - merge geometry 
+mpsz$distname[mpsz$distname == "Mahe"] <- "Puducherry"
+mpsz$distname[mpsz$distname == "Yanam"] <- "Puducherry"
+
+
+#Odisha State - no data so merge into Puri
+mpsz$distname[mpsz$distname == "Khordha"] <- "Puri"
+mpsz$geometry[mpsz$distname == "Puri"] <- st_combine(mpsz$geometry[mpsz$distname == "Puri"])
+
+
+#Telangana State
+mpsz$distname[mpsz$distname == "Jangaon"] <- "Warangal"
+mpsz$geometry[mpsz$distname == "Warangal"] <- st_combine(mpsz$geometry[mpsz$distname == "Warangal"])
+mpsz$distname[mpsz$distname == "Mancherial"] <- "Adilabad"
+mpsz$geometry[mpsz$distname == "Adilabad"] <- st_combine(mpsz$geometry[mpsz$distname == "Adilabad"])
+mpsz$distname[mpsz$distname == "Rangareddy"] <- "Hydrabad"
+mpsz$geometry[mpsz$distname == "Hydrabad"] <- st_combine(mpsz$geometry[mpsz$distname == "Hydrabad"])
+mpsz$distname[mpsz$distname == "Peddapalli"] <- "Karimnagar"
+mpsz$geometry[mpsz$distname == "Karimnagar"] <- st_combine(mpsz$geometry[mpsz$distname == "Karimnagar"])
+mpsz$distname[mpsz$distname == "Yadadri"] <- "Nalgonda"
+mpsz$geometry[mpsz$distname == "Nalgonda"] <- st_combine(mpsz$geometry[mpsz$distname == "Nalgonda"])
+mpsz <- mpsz[mpsz$distname != "Medchal", ] #remove
+```
+
+Now lets remove the duplicates in geospatial data
+
+```{r}
+#| echo: false
+#remove duplicate rows
+mpsz <- mpsz[-c(677, 662, 448, 669, 672, 679, 687),]
+
+#reset index
+rownames(mpsz) <- NULL
+```
+
+Lets group some values in aspatial data
+
+```{r}
+#| echo: false
+IPC <- IPC %>% group_by(State,District) %>% 
+  summarise(across(c(colnames(IPC)[3:14]),sum),
+            .groups = 'drop') %>%
+  as.data.frame()
+```
+
+Now, lets write into RDS
+
+```{r}
+#| echo: false
+write_rds(IPC, "data/aspatial/rds/IPC_clean.rds")
+write_rds(mpsz, "data/geospatial/rds/map_clean.rds")
+```
+
+------------------------------------------------------------------------
+
+## SSL Dataset
+
+Now, lets start the pre-processing for SSL dataset
+
+```{r}
+#| echo: false
+SLL <- read_rds("data/aspatial/rds/SLL.rds")
+mpsz <- read_rds("data/geospatial/rds/map_clean.rds")
+```
+
+State names have already been cleaned, so only district names have to be cleaned.
+
+```{r}
+#| echo: false
+aspatial_districts <-  unique(SLL$District)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
+
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+```
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+Too many mismatched values as expected, hence, we shall perform Fuzzy Search again.
+
+```{r}
+#| echo: false
+new_aspatial <- list()
+threshold <- 0.149 # more similar means smaller value
+#aspatial_districts <- SLL$District
+num <- nrow(SLL)
+
+for(i in 1:num) {
+  
+  row <- SLL[i,]
+  state <- row$State
+  value <- row$District
+  
+  distances <- stringdist(value, geospatial_districts, method = "jw") #distance matrix
+  closest_match_index <- which.min(distances) #index
+  closest_match <- geospatial_districts[closest_match_index]
+  closest_match_state <- mpsz[mpsz$distname == closest_match, ]$statename
+  
+  #similar enough and same state
+  if ((distances[closest_match_index] <= threshold) && (state == closest_match_state)) {
+    new_aspatial <- c(new_aspatial, closest_match)
+    
+  } 
+  #not similar enough 
+  else {
+    new_aspatial <- c(new_aspatial, value)
+  }
+  
+  #distance_df[nrow(distance_df) + 1, ] = c(value, distances[closest_match_index], closest_match)
+  
+}
+new_aspatial <- flatten_chr(new_aspatial)
+SLL$District <- new_aspatial
+```
+
+Check for Mismatch
+
+```{r}
+#| echo: false
+aspatial_districts <-  unique(SLL$District)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
+
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+```
+
+```{r}
+#| echo: false
+geospatial_minus_aspatial_districts
+```
+
+Mismatched values have come down from 415 to 307 for the aspatial values and from 209 to 119 for geospatial values. However, there is a lot of preprocessing left to be done manually.
+
+```{r}
+#| eval: false
+#write.csv(data.frame(aspatial_minus_geospatial_districts), "sll_asp.csv", row.names = FALSE)
+#write.csv(mpsz %>% st_drop_geometry(), "geomap.csv", row.names = FALSE)
+```
+
+As the IPC and SSL data follow the same format, the values after preprocessing can be reused.
+
+```{r}
+#| echo: false
+#SLL <- read_rds("data/aspatial/rds/SLL.rds")
+unique_aspatial_districts <- read.csv(file = 'sll_asp.csv')
+
+#replace the names in the IPC file
+SLL$District[match(unique_aspatial_districts$oldname, SLL$District)] <- unique_aspatial_districts$newname
+
+#remove irrelevant variables
+SLL <- SLL[SLL$District != "remove", ]
+```
+
+When we check again, the mismatched values have decreased.
+
+```{r}
+#| echo: false
+aspatial_districts <-  unique(SLL$District)
+geospatial_districts <- unique(mpsz$distname)
+common_districts <- intersect(aspatial_districts, geospatial_districts)
+
+
+aspatial_minus_geospatial_districts <- setdiff(aspatial_districts, common_districts)
+geospatial_minus_aspatial_districts <- setdiff(geospatial_districts, common_districts)
+```
+
+```{r}
+#| echo: false
+aspatial_minus_geospatial_districts
+geospatial_minus_aspatial_districts
+```
+
+For the aspatial data, CID, GRP, Cyber, Crime Branch and Cyber Cell are not needed.
+
+```{r}
+#| echo: false
+SLL <-SLL[!(SLL$District=="CID" | SLL$District=="GRP" | SLL$District=="Crime Branch" | SLL$District=="Cyber" | SLL$District=="Cyber Cell"),]
+```
+
+```{r}
+#| echo: false
+#Sikkim State
+SLL$District[SLL$District == "North" & SLL$State == "Sikkim"] <- "North District"
+SLL$District[SLL$District == "East" & SLL$State == "Sikkim"] <- "East District"
+SLL$District[SLL$District == "South" & SLL$State == "Sikkim"] <- "South District"
+SLL$District[SLL$District == "West" & SLL$State == "Sikkim"] <- "West District"
+
+#Tripura State
+SLL$District[SLL$District == "West" & SLL$State == "Tripura"] <- "West Tripura"
+SLL$District[SLL$District == "North" & SLL$State == "Tripura"] <- "North Tripura"
+SLL$District[SLL$District == "South" & SLL$State == "Tripura"] <- "South Tripura"
+```
+
+After this district from Anantaput from Andhra Pradesh will be left because there are no values for it. This can be left as it is or the data can be removed from IPC for the sake of uniformity. We will be leaving it as it is for now.
+
+For aspatial data, we can group values.
+
+```{r}
+#| echo: false
+SLL <- SLL %>% group_by(State,District) %>% 
+  summarise(across(c(colnames(SLL)[3:16]),sum),
+            .groups = 'drop') %>%
+  as.data.frame()
+```
+
+Now, lets write into RDS
+
+```{r}
+#| echo: false
+write_rds(SLL, "data/aspatial/rds/SLL_clean.rds")
+```
+
+# Joining Aspatial and Geospatial Data files
+
+```{r}
+IPC_Cleaned <- read_rds("data/rds/IPC_clean.rds")
+```
+
+```{r}
+SLL_Cleaned <- read_rds("data/rds/SLL_clean.rds")
+```
+
+```{r}
+map_Cleaned <- read_rds("data/rds/map_clean.rds")
+```
+
+Lets check the CRS of our geospatial data -
+
+```{r}
+st_crs(map_Cleaned)
+```
+
+The CRS is WG84, we will not be changed the CRS as upon searching for the EPSG code for India, we found that it is recommended to use WG84 for each state of India and there is no CRS for the whole of India. And hence, we won't be changing the CRS.
+
+Now, lets see if our geospatial data is valid.
+
+```{r}
+count(st_is_valid(map_Cleaned))
+```
+
+We can see that the output returns 7 False values. Let's use the function st_make_valid to make the values valid.
+
+```{r}
+st_make_valid(map_Cleaned)
+```
+
+Lets double check if there are any invalid values.
+
+```{r}
+count(st_is_valid(map_Cleaned))
+```
+
+As we can see, st_is_valid did not work. Hence, lets take a deeper look into which values are invalid values.
+
+```{r}
+# Find indices of invalid geometries
+invalid_idx <- which(!st_is_valid(map_Cleaned))
+
+# Subset the data to get only the invalid geometries
+invalid_geoms <- map_Cleaned[invalid_idx,]
+
+# View the invalid geometries
+invalid_geoms
+```
+
+There are 2 values for Puri, Odisha, lets check if they are the same!
+
+```{r}
+identical(map_Cleaned[531,"geometry"] , map_Cleaned[537,"geometry"])
+```
+
+As, we can we see there is a duplication of data for Puri, Odisha, we can remove one of them.
+
+```{r}
+map_Cleaned <- map_Cleaned[-537,]
+```
+
+Now, lets compare the geometry values of map_Cleaned with that of the orginal geometry values of mpsz (the geospatial data without any data pre-processing). We are afraid that the geometry values might have changed while data pre-processing.
+
+```{r}
+identical(map_Cleaned[420,"geometry"] , mpsz[420,"geometry"])
+identical(map_Cleaned[445,"geometry"] , mpsz[445,"geometry"])
+identical(map_Cleaned[531,"geometry"] , mpsz[532,"geometry"])
+identical(map_Cleaned[664,"geometry"] , mpsz[666,"geometry"])
+identical(map_Cleaned[663,"geometry"] , mpsz[665,"geometry"])
+identical(map_Cleaned[667,"geometry"] , mpsz[670,"geometry"])
+```
+
+```{r}
+map_Cleaned[420,"geometry"] = mpsz[420,"geometry"]
+map_Cleaned[445,"geometry"] = mpsz[445,"geometry"]
+map_Cleaned[531,"geometry"] = mpsz[532,"geometry"]
+map_Cleaned[664,"geometry"] = mpsz[666,"geometry"]
+map_Cleaned[663,"geometry"] = mpsz[665,"geometry"]
+map_Cleaned[667,"geometry"] = mpsz[670,"geometry"]
+```
+
+Now, lets check if our above method worked.
+
+```{r}
+# Find indices of invalid geometries
+invalid_idx <- which(!st_is_valid(map_Cleaned))
+
+# Subset the data to get only the invalid geometries
+invalid_geoms <- map_Cleaned[invalid_idx,]
+
+# View the invalid geometries
+invalid_geoms
+```
+
+As we can see, the districts - Hydrebad and Nalgonda from Telgana are still invalid.
+
+**SO WHAT DO WE DOO????**\
+
+```{r}
+plot(st_geometry(map_Cleaned))
+```
+
+```{r}
+tm_shape(map_Cleaned) + 
+  tm_polygons("distname")
+```
+
+```{r}
+IPC_combined_India_districtlevel <- left_join(IPC_Cleaned, map_Cleaned,by=c(
+                                "District"="distname"))
+```
+
+```{r}
+SLL_combined_India_districtlevel <- left_join(SLL_Cleaned, map_Cleaned,by=c(
+                                "District"="distname"))
+```
+
+## **Write into an RDS**
+
+```{r}
+write_rds(IPC_combined_India_districtlevel, "data/rds/IPC_combined_India_districtlevel.rds")
+```
+
+```{r}
+write_rds(SLL_combined_India_districtlevel, "data/rds/SLL_combined_India_districtlevel.rds")
+```
+
+```{r}
+tmap_options(check.and.fix = TRUE)
+```
+
+## Visualise our Joined Data File
+
+```{r}
+IPC_combined_India_districtlevel <- st_as_sf(IPC_combined_India_districtlevel)
+
+murders = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("murders") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="Murders Count")
+
+murders
+```
+
+```{r}
+attempted_muders = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("attempted_muders") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="attempted_muders Count")
+
+death_negligence = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("death_negligence") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="death_negligence Count")
+
+tmap_arrange(attempted_muders, death_negligence)
+```
+
+```{r}
+hurt = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("hurt") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="hurt Count")
+
+Women_assault = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("women_assault") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="women_assault Count")
+
+tmap_arrange(hurt, Women_assault)
+```
+
+```{r}
+kidnapping_abduction = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("kidnapping_abduction") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="kidnapping_abduction Count")
+
+human_exploitation = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("human_exploitation") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="human_exploitation Count")
+
+tmap_arrange(kidnapping_abduction, human_exploitation)
+```
+
+```{r}
+state_offence = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("state_offence") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="state_offence Count")
+
+public_tranquility = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("public_tranquility") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="public_tranquility Count")
+
+tmap_arrange(state_offence, public_tranquility)
+```
+
+```{r}
+movable_property = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("movable_property") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="movable_property Count")
+
+document_fraud = tm_shape(IPC_combined_India_districtlevel)+
+  tm_fill("document_fraud") +
+  tm_borders(alpha = 0.2) +
+  tm_layout(main.title="document_fraud Count")
+
+tmap_arrange(movable_property, document_fraud)
+```
+
+```{r}
+df <- data.frame(
+  Crime_Type = c("hurt", "murders", "attempted_muders", "death_negligence", "women_assault", 
+             "kidnapping_abduction", "human_exploitation", "state_offence", 
+             "public_tranquility", "movable_property", "document_fraud"),
+  total = c(sum(IPC_combined_India_districtlevel$hurt), 
+            sum(IPC_combined_India_districtlevel$murders),
+            sum(IPC_combined_India_districtlevel$attempted_muders),
+            sum(IPC_combined_India_districtlevel$death_negligence),
+            sum(IPC_combined_India_districtlevel$women_assault),
+            sum(IPC_combined_India_districtlevel$kidnapping_abduction),
+            sum(IPC_combined_India_districtlevel$human_exploitation),
+            sum(IPC_combined_India_districtlevel$state_offence),
+            sum(IPC_combined_India_districtlevel$public_tranquility),
+            sum(IPC_combined_India_districtlevel$movable_property),
+            sum(IPC_combined_India_districtlevel$document_fraud))
+)
+
+# Create the bar chart
+ggplot(df, aes(x = Crime_Type, y = total, fill=Crime_Type)) +
+  geom_bar(stat = "identity") +
+  xlab("Crime_Type") +
+  ylab("Total") +
+  ggtitle("Total by Column") +
+  geom_text(aes(label=total), vjust=-0.4)
+```
+
+# Global Spatial Autocorrelation
+
+```{r}
+IPC_combined_India_districtlevel <- read_rds("data/rds/IPC_combined_India_districtlevel.rds")
+
+SLL_combined_India_districtlevel <- read_rds("data/rds/SLL_combined_India_districtlevel.rds")
+```
+
+```{r}
+IPC_combined_India_districtlevel <- st_as_sf(IPC_combined_India_districtlevel)
+SLL_combined_India_districtlevel <- st_as_sf(SLL_combined_India_districtlevel)
+```
+
+```{r}
+IPC_combined_India_districtlevel <- st_cast(IPC_combined_India_districtlevel, "POLYGON")
+SLL_combined_India_districtlevel <- st_cast(SLL_combined_India_districtlevel, "POLYGON")
+```
+
+## Computing Contiguity Spatial Weights
+
+```{r}
+wm_q <- poly2nb(IPC_combined_India_districtlevel, 
+                queen=TRUE)
+summary(wm_q)
+```
+
+There are 1056 regions in India. The most connected area unit has 15 neighbours. And there are 57 regions with just 1 neighbour.
+
+```{r}
+rswm_q <- nb2listw(wm_q, 
+                   style="W", 
+                   zero.policy=TRUE)
+rswm_q
+```
+
+```{r}
+longitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[1]])
+```
+
+```{r}
+latitude <- map_dbl(IPC_combined_India_districtlevel$geometry, ~st_centroid(.x)[[2]])
+```
+
+```{r}
+coords <- cbind(longitude, latitude)
+```
+
+### Determine the cut-off distance
+
+```{r}
+k1 <- knn2nb(knearneigh(coords))
+k1dists <- unlist(nbdists(k1, coords, longlat = TRUE))
+summary(k1dists)
+```
+
+### Compute Fixed Distance Weight Matrix
+
+```{r}
+wm_d62 <- dnearneigh(coords, 0, 62, longlat = TRUE)
+wm_d62
+```
+
+```{r}
+wm62_lw <- nb2listw(wm_d62, style = 'B', zero.policy = TRUE)
+summary(wm62_lw)
+```
+
+```{r}
+knn <- knn2nb(knearneigh(coords, k=8))
+knn
+```
+
+```{r}
+knn_lw <- nb2listw(knn, style = 'B')
+summary(knn_lw)
+```
