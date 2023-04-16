@@ -40,5 +40,40 @@
     "title": "GGgallyy_Indiacrime_project",
     "section": "SLL data",
     "text": "SLL data\n\n#SLL file has been modified the same way as IPC\nSLL <- read_xlsx(\"data/aspatial/2 Districtwise SLL Crimes_2021.xlsx\") %>%\n  slice(5:n())\n\nNew names:\n• `` -> `...1`\n• `` -> `...2`\n• `` -> `...4`\n• `` -> `...5`\n• `` -> `...6`\n• `` -> `...7`\n• `` -> `...9`\n• `` -> `...10`\n• `` -> `...11`\n• `` -> `...12`\n• `` -> `...13`\n• `` -> `...14`\n• `` -> `...16`\n• `` -> `...17`\n• `` -> `...18`\n• `` -> `...19`\n• `` -> `...21`\n• `` -> `...22`\n• `` -> `...23`\n• `` -> `...25`\n• `` -> `...26`\n• `` -> `...27`\n• `` -> `...28`\n• `` -> `...29`\n• `` -> `...30`\n• `` -> `...31`\n• `` -> `...33`\n• `` -> `...34`\n• `` -> `...35`\n• `` -> `...37`\n• `` -> `...38`\n• `` -> `...39`\n• `` -> `...40`\n• `` -> `...41`\n• `` -> `...42`\n• `` -> `...44`\n• `` -> `...45`\n• `` -> `...46`\n• `` -> `...47`\n• `` -> `...48`\n• `` -> `...50`\n• `` -> `...51`\n• `` -> `...52`\n• `` -> `...53`\n• `` -> `...54`\n• `` -> `...55`\n• `` -> `...56`\n• `` -> `...58`\n• `` -> `...59`\n• `` -> `...60`\n• `` -> `...61`\n• `` -> `...63`\n• `` -> `...64`\n• `` -> `...66`\n• `` -> `...67`\n• `` -> `...68`\n• `` -> `...69`\n• `` -> `...71`\n• `` -> `...72`\n• `` -> `...73`\n• `` -> `...75`\n• `` -> `...76`\n• `` -> `...77`\n• `` -> `...78`\n• `` -> `...79`\n• `` -> `...80`\n• `` -> `...81`\n• `` -> `...82`\n• `` -> `...83`\n• `` -> `...84`\n• `` -> `...85`\n• `` -> `...86`\n• `` -> `...87`\n• `` -> `...88`\n• `` -> `...89`\n• `` -> `...90`\n• `` -> `...91`\n\n\nConvert to numeric\n\ndf <- SLL %>%\n  select(-c(\"...1\", \"...2\")) %>%\n  mutate_if(is.character,as.numeric)\n\nGroup data to reduce cardinality\n\ntemp_df <- df |> rowwise() |>\n  summarise(women = `...7`,\n            children = `...14`,\n            st_sc = `...19`,\n            state = `...23`,\n            arms_related = `...31`,\n            information_infringement = `...35`,\n            trade_finance = `...42`,\n            narcotics = `...48`,\n            environment = `...56`,\n            foreigner = `...61`,\n            railway = `...64`,\n            media = `...69`,\n            food = `...73`,\n            others = sum(`...91`, `Other SLL Crimes`))\n\nJoin into df\n\ndf <- cbind(SLL$\"...1\", SLL$\"...2\", temp_df) %>%\n       rename(\"State\" = \"SLL$...1\",\n              \"District\" = \"SLL$...2\")"
+  },
+  {
+    "objectID": "user_guide.html",
+    "href": "user_guide.html",
+    "title": "User Guide",
+    "section": "",
+    "text": "The app opens on the Overview tab which you to explore the raw datasets containing the 2021 crimes in India of against the Indian Penal Code and State and Local Laws.\n\nNavigate to the EDA tab for the next section."
+  },
+  {
+    "objectID": "user_guide.html#eda",
+    "href": "user_guide.html#eda",
+    "title": "User Guide",
+    "section": "EDA",
+    "text": "EDA\nThis section contains interactive choropleth maps for the crimes.\n\n\nSelect the crimes under - Indian Penal Code or State and Local Laws\nSelect crimes - Choose your target variable of type of crime to view the choropleth mapping of\nSelect classification method - Choose type of classification style from the following - fixed, standard deviation, equal, pretty, quantile, kmeans, hclust, bclust, fisher, jenks\nSelect number of classes - Use the slider to select the number of classes for the classification method used.\nSelect colour scheme - Choose your favourite colour scheme from the given list.\n\nNavigate to the Global Spatial Autocorrelation tab for the next section"
+  },
+  {
+    "objectID": "user_guide.html#global-spatial-autocorrelation",
+    "href": "user_guide.html#global-spatial-autocorrelation",
+    "title": "User Guide",
+    "section": "Global Spatial Autocorrelation",
+    "text": "Global Spatial Autocorrelation\nThis section contains permutations and spatial lag for different types of spatial autocorrelation.\n\nSimilar to the first two points under the EDA section,\n\nSelect the crimes under - Indian Penal Code or State and Local Laws\nSelect crimes - Choose your target variable of type of crime to perform the test on\nSelect Spatial Autocorrelation test - Choose between Moran’s I Test and Geary’s C test\nMap output - The first plot contains a historgram of the residuals of the permutations and the second plot contains the spatial lag variables of that test.\n\nNavigate to the Cluster & Outlier & LISA Cluster Maps for the next section"
+  },
+  {
+    "objectID": "user_guide.html#cluster-outlier-lisa-cluster-maps",
+    "href": "user_guide.html#cluster-outlier-lisa-cluster-maps",
+    "title": "User Guide",
+    "section": "Cluster & Outlier & LISA Cluster Maps",
+    "text": "Cluster & Outlier & LISA Cluster Maps\nThis section contains visualisations for the local moran’s I values and a local indicators of spatial autocorrelation (LISA) cluster maps.\n\nSimilar to the first two points under the EDA section,\n\nSelect the crimes under - Indian Penal Code or State and Local Laws\nSelect crimes - Choose your target variable of type of crime to visualise\nSelect visualising maps - Choose visualisation map between local moran’s values and the lisa cluster map\nSelect variable - For local moran’s values, choose the secondary map to view among the following list - local moran’s I statistics, expectation, variance, standard deviation, p-value. For the lisa cluster maps, choose to view among the following list - Moran scatterplot, Moran scatterplot with standardised variables and lisa map classes (shows quadrant based values)\n\nNavigate to the Hot&Cold Spot Analysis for the next section"
+  },
+  {
+    "objectID": "user_guide.html#hotcold-spot-analysis",
+    "href": "user_guide.html#hotcold-spot-analysis",
+    "title": "User Guide",
+    "section": "Hot&Cold Spot Analysis",
+    "text": "Hot&Cold Spot Analysis\nOur final section contains a hotspot and coldspot analysis based on Getis-Ord Gi* statistics.\n\nSimilar to the first two points under the EDA section,\n\nSelect the crimes under - Indian Penal Code or State and Local Laws\nSelect crimes - Choose your target variable of type of crime to visualise\nSelect distance weights matrix - Choose computation type of distance weights matrix between fixed and adaptive weights."
   }
 ]

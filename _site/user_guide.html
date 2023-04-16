@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Mayuri Salunke, Shambhavi Goenka, Wong Kelly">
 
-<title>IS415-GAA</title>
+<title>IS415-GAA - User Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,12 +81,16 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">
+    <a class="nav-link" href="./index.html">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./proposal/Project_Proposal.html">
- <span class="menu-text">Project Proposal</span></a>
+ <span class="menu-text">Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./user_guide.html" aria-current="page">
+ <span class="menu-text">User Guide</span></a>
   </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
@@ -98,20 +103,36 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
+  <li><a href="#global-spatial-autocorrelation" id="toc-global-spatial-autocorrelation" class="nav-link" data-scroll-target="#global-spatial-autocorrelation">Global Spatial Autocorrelation</a></li>
+  <li><a href="#cluster-outlier-lisa-cluster-maps" id="toc-cluster-outlier-lisa-cluster-maps" class="nav-link" data-scroll-target="#cluster-outlier-lisa-cluster-maps">Cluster &amp; Outlier &amp; LISA Cluster Maps</a></li>
+  <li><a href="#hotcold-spot-analysis" id="toc-hotcold-spot-analysis" class="nav-link" data-scroll-target="#hotcold-spot-analysis">Hot&amp;Cold Spot Analysis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">IS415-GAA</h1>
+<h1 class="title">User Guide</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Mayuri Salunke, Shambhavi Goenka, Wong Kelly </p>
+          </div>
+  </div>
     
   
     
@@ -120,11 +141,65 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Welcome to <b> IS415 Geospatial Analytics and Applications. </b></p>
-<p>We are team 6 and our team members are <strong>Kelly</strong>, <strong>Mayuri</strong> and <strong>Shambhavi</strong>! This is our webpage where we will be analysing the crime rate in India.</p>
-<p>To view our Project Proposal, please head to ‘Project Links’ in the navback and select ‘Project Proposal’.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>The app opens on the Overview tab which you to explore the raw datasets containing the 2021 crimes in India of against the Indian Penal Code and State and Local Laws.</p>
+<p><img src="images/Screenshot 2023-04-16 at 8.57.03 PM.png" class="img-fluid"></p>
+<p>Navigate to the EDA tab for the next section.</p>
+</section>
+<section id="eda" class="level2">
+<h2 class="anchored" data-anchor-id="eda">EDA</h2>
+<p>This section contains interactive choropleth maps for the crimes.</p>
+<p><img src="images/Screenshot 2023-04-16 at 8.58.21 PM.png" class="img-fluid"></p>
+<ul>
+<li><p>Select the crimes under - Indian Penal Code or State and Local Laws</p></li>
+<li><p>Select crimes - Choose your target variable of type of crime to view the choropleth mapping of</p></li>
+<li><p>Select classification method - Choose type of classification style from the following - fixed, standard deviation, equal, pretty, quantile, kmeans, hclust, bclust, fisher, jenks</p></li>
+<li><p>Select number of classes - Use the slider to select the number of classes for the classification method used.</p></li>
+<li><p>Select colour scheme - Choose your favourite colour scheme from the given list.</p></li>
+</ul>
+<p>Navigate to the Global Spatial Autocorrelation tab for the next section</p>
+</section>
+<section id="global-spatial-autocorrelation" class="level2">
+<h2 class="anchored" data-anchor-id="global-spatial-autocorrelation">Global Spatial Autocorrelation</h2>
+<p>This section contains permutations and spatial lag for different types of spatial autocorrelation.</p>
+<p><img src="images/Screenshot 2023-04-16 at 9.12.35 PM.png" class="img-fluid"></p>
+<p>Similar to the first two points under the EDA section,</p>
+<ul>
+<li><p>Select the crimes under - Indian Penal Code or State and Local Laws</p></li>
+<li><p>Select crimes - Choose your target variable of type of crime to perform the test on</p></li>
+<li><p>Select Spatial Autocorrelation test - Choose between Moran’s I Test and Geary’s C test</p></li>
+<li><p>Map output - The first plot contains a historgram of the residuals of the permutations and the second plot contains the spatial lag variables of that test.</p></li>
+</ul>
+<p>Navigate to the Cluster &amp; Outlier &amp; LISA Cluster Maps for the next section</p>
+</section>
+<section id="cluster-outlier-lisa-cluster-maps" class="level2">
+<h2 class="anchored" data-anchor-id="cluster-outlier-lisa-cluster-maps">Cluster &amp; Outlier &amp; LISA Cluster Maps</h2>
+<p>This section contains visualisations for the local moran’s I values and a local indicators of spatial autocorrelation (LISA) cluster maps.</p>
+<p><img src="images/lisa.png" class="img-fluid"></p>
+<p>Similar to the first two points under the EDA section,</p>
+<ul>
+<li><p>Select the crimes under - Indian Penal Code or State and Local Laws</p></li>
+<li><p>Select crimes - Choose your target variable of type of crime to visualise</p></li>
+<li><p>Select visualising maps - Choose visualisation map between local moran’s values and the lisa cluster map</p></li>
+<li><p>Select variable - For local moran’s values, choose the secondary map to view among the following list - local moran’s I statistics, expectation, variance, standard deviation, p-value. For the lisa cluster maps, choose to view among the following list - Moran scatterplot, Moran scatterplot with standardised variables and lisa map classes (shows quadrant based values)</p></li>
+</ul>
+<p>Navigate to the Hot&amp;Cold Spot Analysis for the next section</p>
+</section>
+<section id="hotcold-spot-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="hotcold-spot-analysis">Hot&amp;Cold Spot Analysis</h2>
+<p>Our final section contains a hotspot and coldspot analysis based on Getis-Ord Gi* statistics.</p>
+<p><img src="images/Screenshot 2023-04-16 at 9.40.13 PM.png" class="img-fluid"></p>
+<p>Similar to the first two points under the EDA section,</p>
+<ul>
+<li><p>Select the crimes under - Indian Penal Code or State and Local Laws</p></li>
+<li><p>Select crimes - Choose your target variable of type of crime to visualise</p></li>
+<li><p>Select distance weights matrix - Choose computation type of distance weights matrix between fixed and adaptive weights.</p>
+<hr></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,0 +1,82 @@
+---
+title: "User Guide"
+author: "Mayuri Salunke, Shambhavi Goenka, Wong Kelly"
+---
+
+## Overview
+
+The app opens on the Overview tab which you to explore the raw datasets containing the 2021 crimes in India of against the Indian Penal Code and State and Local Laws.
+
+![](images/Screenshot%202023-04-16%20at%208.57.03%20PM.png)
+
+Navigate to the EDA tab for the next section.
+
+## EDA
+
+This section contains interactive choropleth maps for the crimes.
+
+![](images/Screenshot%202023-04-16%20at%208.58.21%20PM.png)
+
+-   Select the crimes under - Indian Penal Code or State and Local Laws
+
+-   Select crimes - Choose your target variable of type of crime to view the choropleth mapping of
+
+-   Select classification method - Choose type of classification style from the following - fixed, standard deviation, equal, pretty, quantile, kmeans, hclust, bclust, fisher, jenks
+
+-   Select number of classes - Use the slider to select the number of classes for the classification method used.
+
+-   Select colour scheme - Choose your favourite colour scheme from the given list.
+
+Navigate to the Global Spatial Autocorrelation tab for the next section
+
+## Global Spatial Autocorrelation
+
+This section contains permutations and spatial lag for different types of spatial autocorrelation.
+
+![](images/Screenshot%202023-04-16%20at%209.12.35%20PM.png)
+
+Similar to the first two points under the EDA section,
+
+-   Select the crimes under - Indian Penal Code or State and Local Laws
+
+-   Select crimes - Choose your target variable of type of crime to perform the test on
+
+-   Select Spatial Autocorrelation test - Choose between Moran's I Test and Geary's C test
+
+-   Map output - The first plot contains a historgram of the residuals of the permutations and the second plot contains the spatial lag variables of that test.
+
+Navigate to the Cluster & Outlier & LISA Cluster Maps for the next section
+
+## Cluster & Outlier & LISA Cluster Maps
+
+This section contains visualisations for the local moran's I values and a local indicators of spatial autocorrelation (LISA) cluster maps.
+
+![](images/lisa.png)
+
+Similar to the first two points under the EDA section,
+
+-   Select the crimes under - Indian Penal Code or State and Local Laws
+
+-   Select crimes - Choose your target variable of type of crime to visualise
+
+-   Select visualising maps - Choose visualisation map between local moran's values and the lisa cluster map
+
+-   Select variable - For local moran's values, choose the secondary map to view among the following list - local moran's I statistics, expectation, variance, standard deviation, p-value. For the lisa cluster maps, choose to view among the following list - Moran scatterplot, Moran scatterplot with standardised variables and lisa map classes (shows quadrant based values)
+
+Navigate to the Hot&Cold Spot Analysis for the next section
+
+## Hot&Cold Spot Analysis
+
+Our final section contains a hotspot and coldspot analysis based on Getis-Ord Gi\* statistics.
+
+![](images/Screenshot%202023-04-16%20at%209.40.13%20PM.png)
+
+Similar to the first two points under the EDA section,
+
+-   Select the crimes under - Indian Penal Code or State and Local Laws
+
+-   Select crimes - Choose your target variable of type of crime to visualise
+
+-   Select distance weights matrix - Choose computation type of distance weights matrix between fixed and adaptive weights.
+
+    ------------------------------------------------------------------------

@@ -4,16 +4,13 @@ project:
 website:
   title: "IS415-GAA"
   navbar:
-    left:
-      - text: "Project Links"
-        menu:
-          - text: "Project Proposal"
-            href: "proposal/Project_Proposal.html"
-    right: 
-      - href: index.qmd
-        text: Home
-      - href: about.qmd
-        text: About
+    left: 
+      - text: "Home"
+        href: "index.qmd"
+      - text: "Proposal"
+        href: "proposal/Project_Proposal.html"
+      - text: "User Guide"
+        href: "user_guide.html"
 
       
 
